@@ -1,0 +1,38 @@
+// simple DASH+ model with OR states and internal events
+
+state SRoot {
+
+    event E0 {}
+    event E1 {}
+
+    default state S0 {
+        trans t01 {
+            on E0
+            goto S1
+        }
+
+        default state S2 {
+            trans t23 {
+                goto S3 
+                send E1
+            }
+        }
+        trans t02 {
+            goto S2
+            send E0
+        }
+
+        state S3 {
+            trans t33 {
+                goto S3
+            }
+        } 
+    }
+
+    state S1 {
+        trans t13 {
+            on E1
+            goto S0/S3
+        }
+    }
+}

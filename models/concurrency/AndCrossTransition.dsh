@@ -1,0 +1,30 @@
+// model with and-cross transitions
+
+state Root {
+    conc S1 {
+        default state S11 {
+            trans t1 {
+                goto S12
+            }
+        }
+        state S12 {
+            trans t2 {
+                goto S2
+            }
+        }
+    }
+
+    conc S2 {
+        default state S21 {
+            trans t3 {
+                goto S22
+            }
+        }
+        state S22 {
+            trans t4 {
+                goto S12
+            }
+            trans t5 {}
+        }
+    }
+}
