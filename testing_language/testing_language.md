@@ -22,16 +22,16 @@
 [
 {
     name: "s1"
-    conf: {"root/s1"}
-    varibles: {v1:"val1"}
+    conf: ["root/s1"]
+    variables: {v1:"val1"}
 },
 {
     name: "s2"
-    conf: {"root/s2"}
-    varibles: {v1:"val1"}
+    conf: ["root/s2"]
+    variables: {v1:"val1"}
 }
 ]
-    trace_class: "s1s2s1(s1|s2)"
+    trace_class: ["s1","s2*",["s1","s2"],".*"]
 }
 ```
 - stuttering enabled by default so `*` is implicit
