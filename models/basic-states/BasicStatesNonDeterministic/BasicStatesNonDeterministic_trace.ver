@@ -1,0 +1,29 @@
+pred trace_pred [
+s1: one DshSnapshot,
+s2: one DshSnapshot,
+s3: one DshSnapshot,
+s4: one DshSnapshot,
+s5: one DshSnapshot,
+s6: one DshSnapshot,
+s7: one DshSnapshot,
+s8: one DshSnapshot,
+s9: one DshSnapshot] {
+s1 = DshSnapshot/first &&
+s2 = s1.DshSnapshot/next &&
+s3 = s2.DshSnapshot/next &&
+s4 = s3.DshSnapshot/next &&
+s5 = s4.DshSnapshot/next &&
+s6 = s5.DshSnapshot/next &&
+s7 = s6.DshSnapshot/next &&
+s8 = s7.DshSnapshot/next &&
+s9 = s8.DshSnapshot/next &&
+s1.dsh_conf0 = Root_S1 &&
+s2.dsh_conf0 = Root_S3 &&
+s3.dsh_conf0 = Root_S4 &&
+s4.dsh_conf0 = Root_S1 &&
+s5.dsh_conf0 = Root_S2 &&
+s6.dsh_conf0 = Root_S3 &&
+s7.dsh_conf0 = Root_S1 &&
+s8.dsh_conf0 = Root_S2 &&
+s9.dsh_conf0 = Root_S4}
+run trace_pred for exactly 9 DshSnapshot

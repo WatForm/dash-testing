@@ -1,0 +1,31 @@
+
+
+\***********
+Trace predicate
+\*************
+
+pred trace_pred [
+s1: one DshSnapshot,
+s2: one DshSnapshot,
+s3: one DshSnapshot,
+s4: one DshSnapshot,
+s5: one DshSnapshot,
+s6: one DshSnapshot,
+s7: one DshSnapshot] {
+s1 = DshSnapshot/first &&
+s2 = s1.DshSnapshot/next &&
+s3 = s2.DshSnapshot/next &&
+s4 = s3.DshSnapshot/next &&
+s5 = s4.DshSnapshot/next &&
+s6 = s5.DshSnapshot/next &&
+s7 = s6.DshSnapshot/next &&
+s1.dsh_conf0 = Root_A_A1_A11 &&
+s2.dsh_conf0 = Root_B_B1_B12 &&
+s3.dsh_conf0 = Root_B_B1_B11 &&
+s4.dsh_conf0 = Root_A_A2_A21 &&
+s5.dsh_conf0 = Root_A_A2_A22 &&
+s6.dsh_conf0 = Root_B_B1_B11 &&
+s7.dsh_conf0 = Root_B_B2_B21
+}
+
+run trace_pred for exactly 7 DshSnapshot

@@ -1,6 +1,6 @@
 // simple DASH+ model with OR states and internal events
 
-state SRoot {
+state Root {
 
     event E0 {}
     event E1 {}

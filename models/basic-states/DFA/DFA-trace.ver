@@ -1,0 +1,23 @@
+
+
+pred trace_pred [
+s1: one DshSnapshot,
+s2: one DshSnapshot,
+s3: one DshSnapshot,
+s4: one DshSnapshot,
+s5: one DshSnapshot,
+s6: one DshSnapshot] {
+s1 = DshSnapshot/first &&
+s2 = s1.DshSnapshot/next &&
+s3 = s2.DshSnapshot/next &&
+s4 = s3.DshSnapshot/next &&
+s5 = s4.DshSnapshot/next &&
+s6 = s5.DshSnapshot/next &&
+s1.dsh_conf0 = DFA_S00 &&
+s2.dsh_conf0 = DFA_S11 &&
+s3.dsh_conf0 = DFA_S10 &&
+s4.dsh_conf0 = DFA_S00 &&
+s5.dsh_conf0 = DFA_S01 &&
+s6.dsh_conf0 = DFA_S11}
+
+run trace_pred for exactly 6 DshSnapshot

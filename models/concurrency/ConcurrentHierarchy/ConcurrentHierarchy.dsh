@@ -1,11 +1,11 @@
 // concurrent states
 
 state Root {
-    conc A {
-        conc A1 {
+    default conc A {
+        default conc A1 {
             default state A11 {
                 trans t1 {
-                    goto A12 {}
+                    goto A12
                 }
                 trans t2 {
                     goto B
@@ -23,7 +23,7 @@ state Root {
                 goto D
             }
         }
-        conc A2 {
+        default conc A2 {
             default state A21 {
                 trans t6 {
                     goto A
@@ -48,8 +48,8 @@ state Root {
             }
         }
     }
-    conc B {
-        conc B1 {
+    default conc B {
+        default conc B1 {
             default state B11 {
                 trans t12 {
                     goto B12
@@ -70,7 +70,7 @@ state Root {
                 goto D
             }
         }
-        conc B2 {
+        default conc B2 {
             default state B21 {
                 trans t17 {
                     goto B1
