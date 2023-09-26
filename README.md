@@ -1,8 +1,6 @@
 # dash-testing
 Integration testing for Dash translations to other languages
 
-## Running tests
-
 ## Adding models and tests
 
 - Models are added in the appropriate folder inside the 'models' folder as a `.dsh` file.
@@ -15,5 +13,5 @@ Integration testing for Dash translations to other languages
 
 - A file named `script.py` is created in this folder. This script is repsonsible for running all tests related to language `<x>`
 
-- Appropriate changes are made to the `.gitignore` file to exclude those artefacts that are generated automatically by the script
+- `script.py` is to have a function named `generate(data, args)` where `data` is the dictionary obtained after parsing the `.json` file containing the property and `args` represents arguments specific to the langauge.
 

@@ -1,3 +1,12 @@
+# workspace in dashtotla
+dash2tla/workspace/
+
+# any artefact produced in model
+models/*
+!models/*.json
+!models/*.ver
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -159,5 +168,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# workspace in dashtotla
-dash2tla/workspace/
+
