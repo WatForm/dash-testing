@@ -1,4 +1,4 @@
-conf = "_conf"
+conf_name = "_conf"
 ct = "_ct"
 AND = "/\\"
 OR = "\\/"

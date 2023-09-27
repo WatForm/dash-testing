@@ -15,3 +15,5 @@ Integration testing for Dash translations to other languages
 
 - `script.py` is to have a function named `generate(data, args)` where `data` is the dictionary obtained after parsing the `.json` file containing the property and `args` represents arguments specific to the langauge.
 
+- Any imports into `script.py` must be defined relative to the parent folder of `main.py`, not the folder `dash2<x>`
+

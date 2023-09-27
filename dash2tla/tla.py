@@ -1,4 +1,4 @@
-import config
+from dash2tla.config import *
 
 
 def parse(data, debug):
@@ -42,13 +42,18 @@ def state(object): # clause which says that system is in current state
 
     conf = "{" + getList(enclose(object["conf"],"\"","\"")," , ") + "}"
 
+    clause = clause + conf_name+" == "+conf
+
+    if not "variables" in object.keys():
+        return clause
+
     variables = []
 
     for x in object["variables"].keys():
 
         variables.append(x+" == "+object["variables"][x])
 
-    return config.conf+" == "+conf+" "+config.AND+" "+getList(variables," "+config.AND+" ")
+    return clause+" "+AND+" "+getList(variables," "+AND+" ")
 
 
 def enclose(arr, start, end): # enclose each string in arr with start and end
@@ -93,10 +98,10 @@ def for_all(data, debug=False): # property to test if all traces are members of 
             if xo == None:
                 return "Error: "+x+" is not defined in the input"
 
-            s = "ct == "+str(ct)+config.IMPLIES+config.parenthesis(state(xo))
-            s_debug = str(ct)+" "+config.IMPLIES+" "+x
-            and_list.append(config.G(s))
-            and_list_debug.append(config.G(s_debug))
+            s = "ct == "+str(ct)+IMPLIES+parenthesis(state(xo))
+            s_debug = str(ct)+" "+IMPLIES+" "+x
+            and_list.append(G(s))
+            and_list_debug.append(G(s_debug))
             pass
 
         else:
@@ -109,15 +114,15 @@ def for_all(data, debug=False): # property to test if all traces are members of 
                 or_list.append(state(yo))
                 or_list_debug.append(y)
 
-            and_clause = getList(enclose(or_list,"(",")"),config.OR)
-            and_clause_debug = getList(enclose(or_list_debug,"",""),config.OR)
-            and_list.append(config.G("ct == "+str(ct)+" "+config.IMPLIES+config.parenthesis(and_clause)))
-            and_list_debug.append(config.G(str(ct)+" "+config.IMPLIES+" "+config.parenthesis(and_clause_debug)))
+            and_clause = getList(enclose(or_list,"(",")"),OR)
+            and_clause_debug = getList(enclose(or_list_debug,"",""),OR)
+            and_list.append(G("ct == "+str(ct)+" "+IMPLIES+parenthesis(and_clause)))
+            and_list_debug.append(G(str(ct)+" "+IMPLIES+" "+parenthesis(and_clause_debug)))
             pass
     
     if debug:
-        print("formula:"+getList(enclose(and_list_debug," "," "),config.AND))
-    return getList(enclose(and_list,"(",")"),config.AND)
+        print("formula:"+getList(enclose(and_list_debug," "," "),AND))
+    return getList(enclose(and_list,"(",")"),AND)
     pass
 
 
@@ -138,10 +143,10 @@ def there_exists(data, debug=False): # property to verify that at least one trac
             if xo == None:
                 return "Error: "+x+" is not defined in the input"
 
-            s = "ct == "+str(ct)+config.IMPLIES+config.NOT+config.parenthesis(state(xo))
-            s_debug = str(ct)+" "+config.IMPLIES+" "+config.NOT+x
-            or_list.append(config.G(s))
-            or_list_debug.append(config.G(s_debug))
+            s = "ct == "+str(ct)+IMPLIES+NOT+parenthesis(state(xo))
+            s_debug = str(ct)+" "+IMPLIES+" "+NOT+x
+            or_list.append(G(s))
+            or_list_debug.append(G(s_debug))
             pass
 
         else:
@@ -154,15 +159,15 @@ def there_exists(data, debug=False): # property to verify that at least one trac
                 or_list_inner.append(state(yo))
                 or_list_inner_debug.append(y)
 
-            or_clause = getList(enclose(or_list_inner,"(",")"),config.OR)
-            or_clause_debug = getList(enclose(or_list_inner_debug,"",""),config.OR)
-            or_list.append(config.G("ct == "+str(ct)+" "+config.IMPLIES+config.NOT+config.parenthesis(or_clause)))
-            or_list_debug.append(config.G(str(ct)+" "+config.IMPLIES+" "+config.NOT+config.parenthesis(or_clause_debug)))
+            or_clause = getList(enclose(or_list_inner,"(",")"),OR)
+            or_clause_debug = getList(enclose(or_list_inner_debug,"",""),OR)
+            or_list.append(G("ct == "+str(ct)+" "+IMPLIES+NOT+parenthesis(or_clause)))
+            or_list_debug.append(G(str(ct)+" "+IMPLIES+" "+NOT+parenthesis(or_clause_debug)))
             pass
     
     if debug:
-        print("formula:"+getList(enclose(or_list_debug," "," "),config.OR))
-    return getList(enclose(or_list,"(",")"),config.OR)
+        print("formula:"+getList(enclose(or_list_debug," "," "),OR))
+    return getList(enclose(or_list,"(",")"),OR)
 
     pass
     
