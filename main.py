@@ -4,7 +4,7 @@ Requirements:
 The first three arguments are mandatory
 1) The first argument is a language. If -x is typed, language becomes x
 2) The second argument is a source path
-3) The thrd argument is a destination path
+3) The third argument is a destination path
 
 case 1: source and destination are both files
 Then perform a check to ensure that source file ends in '.json' and destination file ands in '.ver'
