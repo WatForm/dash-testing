@@ -1,41 +1,8 @@
 """
-trranslate each models (needs to merged)
-translate each test
-run all the tests (needs to be written, take the langauge as an argument)
-
-Rquirements:
+Requirements:
 first argument required, language
 second argument is method in file named script.py in dash2<x> where x is first argument to execute (may be anything depending on the language, of these the help is mandatory)
 arguments after that are given to individual functions
-
-Requirements:
-
-The first three arguments are mandatory
-1) The first argument is a language. If -x is typed, language becomes x
-2) The second argument is a source path
-3) The third argument is a destination path
-
-case 1: source and destination are both files
-Then perform a check to ensure that source file ends in '.json' and destination file ands in '.ver'
-go to the folder dash2<x> where x is the second arg and look for a file named script.py and run the method named 'generate' and pass arguments starting from 4th one
-generate(data, args)
-where args is the arguments and data is the json-parsed form of the source file
-output of generate to be written into the target file. If the file exists, overwrite it without warning
-
-case 2: source is a directory
-Then perform a check to ensure that destination is also a directory
-traverse directory recursively looking for any instance of files matching source pattern
-if found, case 1 but set the destination file to be source file name but with extension replaced
-do this for all files
-put all those output files into the destination directory
-
-case 3: source is directory and destination is "--auto"
-do the same as case 2 but put each output file into the same parent folder as the source file
-
-
-4th onwards are optional, pass all from the 4th one to args in generate(data, args)
-
-use argparse, json, os, sys and importlib packages of python
 """
 import argparse
 import json
