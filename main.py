@@ -1,4 +1,13 @@
 """
+trranslate each models (needs to merged)
+translate each test
+run all the tests (needs to be written, take the langauge as an argument)
+
+Rquirements:
+first argument required, language
+second argument is method in file named script.py in dash2<x> where x is first argument to execute (may be anything depending on the language, of these the help is mandatory)
+arguments after that are given to individual functions
+
 Requirements:
 
 The first three arguments are mandatory
@@ -92,18 +101,33 @@ def process_directory(language, source, destination, additional_args):
                 run_generate(script_directory, source_file, destination_file, additional_args)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Process JSON files and call 'generate' method.")
-    parser.add_argument("language", help="Language or -x for special case")
-    parser.add_argument("source", help="Source file or directory")
-    parser.add_argument("destination", help="Destination file or directory")
-    parser.add_argument("additional_args", nargs=argparse.REMAINDER, help="Additional arguments")
+    parser = argparse.ArgumentParser(description="Top-level script for testing dash models")
+    parser.add_argument("language", help="target language of translation")
+    parser.add_argument("additional_args", nargs=argparse.REMAINDER, help="Additional arguments, passed to language-specific script")
 
     args = parser.parse_args()
     print("args parsed")
 
-    if os.path.isfile(args.source) and os.path.isfile(args.destination):
-        process_files(args.language, args.source, args.destination, args.additional_args)
-    elif os.path.isdir(args.source):
-        process_directory(args.language, args.source, args.destination, args.additional_args)
+    # Check if 'script.py' exists in 'dash2<x>' directory
+    script_directory = os.path.join("dash2" + args.language)
+    if not os.path.exists(script_directory):
+        print(f"Error: the target language {args.language} is not currently supported")
+        exit()
+    script_path = os.path.join(script_directory, "script.py")
+    if not os.path.exists(script_path):
+        print(f"Error: 'script.py' not found in {script_directory}")
+        exit()
+
+    # Import 'script.py' and call 'generate' method
+    spec = importlib.util.spec_from_file_location("script_module", script_path)
+    script_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(script_module)
+    if hasattr(script_module, "main") and callable(script_module.main):
+        result = script_module.main(args.additional_args)
     else:
-        print("Error: Invalid source or destination.")
+        print(f"Error: 'main' method not found in {script_path}")
+        exit
+    
+    
+    print("complete")
+

@@ -9,11 +9,15 @@ Integration testing for Dash translations to other languages
 
 ## Adding language support
 
-- A folder named `dash2<x>` is created at the top-level, where `<x>` is the target language
+- A folder named `dash2<x>` is created at the top-level, where `<x>` is the target language. All modifications are done in this folder. No language-specific changes are to be made outside this folder
 
-- A file named `script.py` is created in this folder. This script is repsonsible for running all tests related to language `<x>`
-
-- `script.py` is to have a function named `generate(data, args)` where `data` is the dictionary obtained after parsing the `.json` file containing the property and `args` represents arguments specific to the langauge.
+- A file named `script.py` is created in this folder. This script contains all the top-level functions that the user is expected to be able to access.
 
 - Any imports into `script.py` must be defined relative to the parent folder of `main.py`, not the folder `dash2<x>`
+
+- All functions in `script.py` is to have a single parameter named `args`
+
+- One of the functions in `script.py` is to be named `help`, which is to display all relevant information about the language module when called.
+
+- Any environment variables the user is expected to set is put into `dash2<x>/config.json`. For instance, commands to execute external programs.
 
