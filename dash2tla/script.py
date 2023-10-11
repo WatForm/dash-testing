@@ -1,4 +1,4 @@
-from dash2tla.translate_tests import *
+from dash2tla.translate_test import *
 import os
 import json
 
