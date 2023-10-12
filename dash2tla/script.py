@@ -1,6 +1,7 @@
 from dash2tla.translate_test import *
 import os
 import json
+import subprocess
 
 root_folder = "./models"
 
@@ -41,8 +42,20 @@ def translate_tests(args):
     pass
 
 def translate_models():
+    files = get_all_absolute_paths(root_folder,"dsh")
+    conf = get_config()
+    cmd = conf["translation_command"]
+    shell = conf["shell"]
+    for f in files:
+        print(f)
+        f_target = f[0:-3]+".tla"
+        c = cmd+" "+f+" "+f_target
+        run_command(c,shell)
+        print(f_target)
+        print("----")
     pass
 
+    
 def run_tests():
     pass
 
@@ -79,4 +92,15 @@ def delete_files(file_paths):
             print(f"Deleted file: {file_path}")
         except OSError as e:
             print(f"Error deleting {file_path}: {e}")
+
+def get_config():
+    with open("./dash2tla/config.json","r") as f:
+    return json.load()
+
+def run_command(cmd,shell):
+    if shell:
+        subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    else: # for unix-based
+        subprocess.run(cmd.split(),stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    pass
 
