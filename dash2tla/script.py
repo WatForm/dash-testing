@@ -48,7 +48,7 @@ def translate_models():
     shell = conf["shell"]
     for f in files:
         print(f)
-        f_target = f[0:-3]+".tla"
+        f_target = f[0:-3]+"tla"
         c = cmd+" "+f+" "+f_target
         run_command(c,shell)
         print(f_target)
@@ -95,7 +95,8 @@ def delete_files(file_paths):
 
 def get_config():
     with open("./dash2tla/config.json","r") as f:
-    return json.load()
+        return json.load(f)
+    return None
 
 def run_command(cmd,shell):
     if shell:
