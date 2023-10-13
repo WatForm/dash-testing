@@ -1,4 +1,5 @@
 from dash2tla.translate_test import *
+from dash2tla.run_tests import *
 import os
 import json
 import subprocess
@@ -13,7 +14,7 @@ def main(args):
     elif args[0] == "models":
         translate_models()
     elif args[0] == "run":
-        run_tests()
+        run_all_tests()
     elif args[0] == "clean":
         clean()
     pass
@@ -56,8 +57,20 @@ def translate_models():
     pass
 
     
-def run_tests():
-    pass
+def run_all_tests():
+    files = get_all_absolute_paths(root_folder,"tla")
+    props = get_all_absolute_paths(root_folder,"ver")
+    test_mapping = {}
+    for f in files:
+        props_f = []
+        for g in props:
+            if g.startswith(f[:-4]+"-trace_prop"):
+                props_f.append(g)
+        test_mapping[f] = props_f
+    for f in files:
+        print(str(len(test_mapping[f]))+" tests detected for "+f)
+        for prop in test_mapping[f]:
+            create_test(f,prop)
 
 def clean():
     files = []

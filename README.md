@@ -5,7 +5,9 @@ Integration testing for Dash translations to other languages
 
 - Models are added in the appropriate folder inside the 'models' folder as a `.dsh` file.
 
-- If the model is named `<model>.dsh`, then the test for the i<sup>th</sup> property is named `<model>-prop<i>.json` and stored in the same folder as `<model>.dsh`
+- Each model is stored in its own folder with the same name.
+
+- If the model is named `<model>.dsh`, then the test for the i<sup>th</sup> property is named `<model>-trace_prop<i>.json` and stored in the same folder as `<model>.dsh`
 
 ## Adding language support
 
@@ -15,9 +17,7 @@ Integration testing for Dash translations to other languages
 
 - Any imports into `script.py` must be defined relative to the parent folder of `main.py`, not the folder `dash2<x>`
 
-- All functions in `script.py` is to have a single parameter named `args`
-
-- One of the functions in `script.py` is to be named `help`, which is to display all relevant information about the language module when called.
+- `script.py` is to have a function `main(args)` which is given all additional arguments given to the top-level script.
 
 - Any environment variables the user is expected to set is put into `dash2<x>/config.json`. For instance, commands to execute external programs.
 
