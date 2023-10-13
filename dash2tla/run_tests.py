@@ -51,7 +51,12 @@ def inject_ct(file_contents):
     return modified_file
 
 def inject_prop(file_contents, prop):
-    modified_file = file_contents
+    modified_file = []
+    for x in file_contents:
+        if x.startswith(EOF):
+            new_string = PROPERTY + " " + DEFINITION + " " + prop + "\n"
+            modified_file.append(new_string)
+        modified_file.append(x)
     return modified_file
     pass
 
