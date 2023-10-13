@@ -27,20 +27,23 @@ def create_config(filepath):
 
 def inject_ct(file_contents):
     modified_file = []
-    for i in range(len(file_contents)):
+    i = 0
+    while i < len(file_contents):
         x = file_contents[i]
         if x.startswith(VARIABLES):
             modified_file.append(x)
-            new_string = "\n" + VARIABLES + " " + ct
+            new_string = VARIABLES + " " + ct + "\n"
             modified_file.append(new_string)
         elif x.startswith(INIT):
             modified_file.append(x)
-            new_string = "\n\t" + AND + " " + ct + " " + EQUAL + " 0";
+            new_string = "\t" + AND + " " + ct + " " + EQUAL + " 0\n";
             modified_file.append(new_string)
         elif x.startswith(NEXT):
             modified_file.append(x)
-            i=i+1
-            new_string = "\n\t" + OR + " " + parenthesis(TRANSITION + " " + AND + " " + ct_prime+EQUAL+ct+"+1")
+            i=i+2
+            new_string = "\t" + OR + " " + parenthesis(TRANSITION + " " + AND + " " + ct_prime+EQUAL+ct+"+1")+"\n"
+            modified_file.append(new_string)
+            new_string = "\t" + OR + " " + parenthesis(STUTTER + " " + AND + " " + ct_prime+EQUAL+ct)+"\n"
             modified_file.append(new_string)
         else:
             modified_file.append(x)
