@@ -1,0 +1,14 @@
+
+options:
+tests       reads all .json tests in the models folder and converts them in place to .ver files
+models      treads all .dsh models in the models folder and converts them into .tla files
+run         runs all the tests specified in .ver files for the models specified in .tla files
+clean       removes all .ver and .tla files
+
+configuration parameters: (as defined in dash2tla/config.json)
+"translation_command"   defines the command used to translate .dsh files to .tla files
+"run_command"           defines the command used to invoke the TLC model-checker
+"shell"                 used to define how the script is to invoke shell commands, set to false for UNIX-based systems
+"custom_include"        flag which determines if the tests are run for a specific set of models
+"include_list"          defines the names of the models for which the tests ought to be run when "custom_include" is true
+    

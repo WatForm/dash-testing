@@ -20,11 +20,8 @@ def main(args):
     pass
 
 def help():
-    print("options:")
-    print("tests\t\treads all .json tests in the models folder and converts them in place to .cfg files")
-    print("models\t\treads all .dsh models in the models folder and converts them into .tla files")
-    print("run\t\truns all the tests specified in .ver files for the models specified in .tla files")
-    print("clean\t\tremoves all .ver and .tla files")
+    with open("./dash2tla/README","r") as f:
+        print(f.read())
     pass
 
 
@@ -76,9 +73,11 @@ def run_all_tests():
                 props_f.append(g)
         test_mapping[f] = props_f
     for f in files:
-        print(str(len(test_mapping[f]))+" tests detected for "+f)
+        print(str(len(test_mapping[f]))+" test(s) detected for "+f)
         for prop in test_mapping[f]:
             create_test(f,prop)
+    # run test using tla command, the cfg is given in the same folder as test_conf
+    # delete theb
 
 def clean():
     files = []

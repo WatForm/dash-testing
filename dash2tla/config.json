@@ -3,7 +3,7 @@
     "run_command":"java -jar ../software/toolbox/tla2tools.jar",
     "shell":false,
     "custom_include":true,
-    "inclue_list":[
+    "include_list":[
         "BasicStates"
     ]
 }
