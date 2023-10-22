@@ -60,6 +60,14 @@ def translate_models():
 def run_all_tests():
     files = get_all_absolute_paths(root_folder,"tla")
     props = get_all_absolute_paths(root_folder,"ver")
+    conf = get_config()
+    if conf["custom_include"]:
+        new_files = []
+        for f in files:
+            for n in conf["include_list"]:
+                if f.endswith(n+".tla"):
+                    new_files.append(f)
+        files = new_files
     test_mapping = {}
     for f in files:
         props_f = []
