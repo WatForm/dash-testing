@@ -14,7 +14,7 @@ def parse(data, debug):
     if debug:
         print(result)
 
-    if "forall" in data and data["forall"]:
+    if "for_all" in data and data["for_all"]:
 
         return for_all(data, debug)
 

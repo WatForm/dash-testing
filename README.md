@@ -1,6 +1,36 @@
 # dash-testing
 Integration testing for Dash translations to other languages
 
+
+## Writing a test
+
+A test is a `.json` file which contains the following fields:
+
+```
+{
+    "snapshots":
+    [
+        {
+            "name":<name>
+            "conf0":[
+                // leaf states in conf0
+            ]
+            // properties of variables
+        },
+    ]
+    "trace_class":[]
+    "for_all": // (false by default)
+}
+```
+
+The trace class is a representation of a set of valid traces.
+
+- if the i<sup>th</sup> element is `name`, then `name` must appear in the i<sup>th</sup> position of every trace in the set
+
+- if the i<sup>th</sup> element is a list of `names`, then one of those `names` must appear in the i<sup>th</sup> position of every trace in the set
+
+- if the i<sup>th</sup> element is simply `"*"` then there is no restriction on what `name` appears in the i<sup>th</sup> position of a trace in the set
+
 ## Adding models and tests
 
 - Models are added in the appropriate folder inside the 'models' folder as a `.dsh` file.
