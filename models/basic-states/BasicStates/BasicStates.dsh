@@ -1,0 +1,43 @@
+// flat model 
+
+state Root {
+    default state A {
+        trans t1 {
+            goto B
+        }
+        trans t2 {
+            goto D 
+        }
+    }
+    state B {
+        trans t3 {
+            goto C
+        }
+        trans t4 {
+            goto E
+        }
+    }
+    state C {
+        trans t5 {
+            goto F
+        }
+    }
+    state D {
+        trans t6 {
+            goto E
+        }
+        trans t7 {
+            goto B
+        }
+    }
+    state E {
+        trans t8 {
+            goto F
+        }
+    }
+    state F {
+        trans t9 {
+            goto A
+        }
+    }
+}

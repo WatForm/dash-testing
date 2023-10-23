@@ -1,0 +1,15 @@
+{
+    "snapshots":
+    [
+        {
+            "name": "A",
+            "conf0": ["Root/A"]
+        },
+        {
+            "name": "B",
+            "conf0": ["Root/B"]
+        }
+    ],
+    "trace_class": ["A", "B", "A", "B", "A", "B"],
+    "for_all": false
+}
