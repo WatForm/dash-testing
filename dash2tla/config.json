@@ -5,6 +5,7 @@
     "custom_include":true,
     "include_list":[
         "BasicStates",
-        "TwoStateOscillator"
+        "TwoStateOscillatorUnstable",
+        "TwoStateOscillatorBistable"
     ]
 }

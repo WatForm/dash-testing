@@ -1,6 +1,3 @@
-# workspace in dashtotla
-dash2tla/workspace/
-
 # any artefact produced in model
 models/*
 !models/*.json
