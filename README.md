@@ -20,6 +20,8 @@ A test is a `.json` file which contains the following fields:
     ]
     "trace_class":[]
     "for_all": // (false by default)
+    "expected_result": (true by default)
+    "limit": (length of trace_class by default)
 }
 ```
 
@@ -30,6 +32,10 @@ The trace class is a representation of a set of valid traces.
 - if the i<sup>th</sup> element is a list of `names`, then one of those `names` must appear in the i<sup>th</sup> position of every trace in the set
 
 - if the i<sup>th</sup> element is simply `"*"` then there is no restriction on what `name` appears in the i<sup>th</sup> position of a trace in the set
+
+The `limit` field determines the maximum value of the length of traces to be explored.
+
+The test is considered `pass` if the 
 
 ## Adding models and tests
 
