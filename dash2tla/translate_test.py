@@ -5,23 +5,30 @@ def parse(data, debug):
 
     objects = data["snapshots"]
 
-    result = ""
+    debug_out = ""
 
     for x in objects:
 
-        result+=("\n"+x["name"]+" = "+state(x))
+        debug_out+=("\n"+x["name"]+" = "+state(x))
 
     if debug:
-        print(result)
+        print(debug_out)
+
+    result = ""
 
     if "for_all" in data and data["for_all"]:
-
-        return for_all(data, debug)
-
+        result = result + for_all(data, debug)
     else:
-
-        return there_exists(data, debug)
-    pass
+        result = result + there_exists(data, debug)
+    if "limit" in data:
+        result = result + "\n" + ct + LESSER + str(data["limit"])
+    else:
+        result = result + "\n" + ct + LESSER + str(len(data["trace_class"]))
+    if "expected_result" in data and not data["expected_result"]:
+        result = result + "\nfalse"
+    else:
+        result = result + "\ntrue"
+    return result
 
 
 def get_object_named(snapshots,x):

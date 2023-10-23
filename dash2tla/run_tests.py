@@ -9,13 +9,13 @@ import os
 
 def create_test(file_path, prop_path):# takes in a .tla file and a .ver file and makes a temporary file for testing
     f = open(file_path,"r")
-    f_prop = open(prop_path,"r")
+    f_cfg = open(prop_path,"r")
     temp_file = file_path[:-4]+"_test.tla"
-    prop = f_prop.read()
+    cfg = f_cfg.readlines()
     f_contents = f.readlines()
     f_contents = replace_module_name(f_contents,os.path.basename(file_path)[:-4],"_test")
     f_contents = inject_ct(f_contents)
-    f_contents = inject_prop(f_contents, prop)
+    f_contents = inject_prop(f_contents, cfg[0], cfg[1])
     with open(temp_file, "w") as c:
         for t in f_contents:
             c.write(t)
@@ -50,11 +50,11 @@ def inject_ct(file_contents):
         i = i+1
     return modified_file
 
-def inject_prop(file_contents, prop):
+def inject_prop_inv(file_contents, prop, inv):
     modified_file = []
     for x in file_contents:
         if x.startswith(EOF):
-            new_string = PROPERTY + " " + DEFINITION + " " + prop + "\n"
+            new_string = PROPERTY + " " + DEFINITION + " " + prop + "\n" + INVARIANT +" "+ DEFINITION + " " + inv + "\n"
             modified_file.append(new_string)
         modified_file.append(x)
     return modified_file
