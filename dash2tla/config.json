@@ -4,6 +4,7 @@
     "shell":false,
     "custom_include":true,
     "include_list":[
-        "BasicStates"
+        "BasicStates",
+        "TwoStateOscillator"
     ]
 }

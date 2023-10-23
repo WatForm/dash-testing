@@ -4,7 +4,7 @@ dash2tla/workspace/
 # any artefact produced in model
 models/*
 !models/*.json
-!models/*.ver
+!models/*.dsh
 
 
 # Byte-compiled / optimized / DLL files
