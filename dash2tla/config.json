@@ -4,8 +4,6 @@
     "shell":false,
     "custom_include":true,
     "include_list":[
-        "BasicStates",
-        "TwoStateOscillatorUnstable",
-        "TwoStateOscillatorBistable"
+        "TwoStateOscillatorUnstable"
     ]
 }

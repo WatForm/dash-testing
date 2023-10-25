@@ -1,5 +1,6 @@
 from dash2tla.syntax import *
 import os
+import re
 
 # to run a test, new file named <x>_test.tla is made
 # a new variable named ct is created (read from syntax)
@@ -15,11 +16,11 @@ def create_test(file_path, prop_path):# takes in a .tla file and a .ver file and
     f_contents = f.readlines()
     f_contents = replace_module_name(f_contents,os.path.basename(file_path)[:-4],"_test")
     f_contents = inject_ct(f_contents)
-    f_contents = inject_prop(f_contents, cfg[0], cfg[1])
+    f_contents = inject_prop_inv(f_contents, cfg[0], cfg[1])
     with open(temp_file, "w") as c:
         for t in f_contents:
             c.write(t)
-    pass
+    return temp_file
 
 def create_config(filepath):
     pass
@@ -54,7 +55,7 @@ def inject_prop_inv(file_contents, prop, inv):
     modified_file = []
     for x in file_contents:
         if x.startswith(EOF):
-            new_string = PROPERTY + " " + DEFINITION + " " + prop + "\n" + INVARIANT +" "+ DEFINITION + " " + inv + "\n"
+            new_string = "\n"+ PROPERTY + " " + DEFINITION + " " + prop + "\n" + INVARIANT +" "+ DEFINITION + " " + inv + "\n"
             modified_file.append(new_string)
         modified_file.append(x)
     return modified_file
@@ -65,3 +66,37 @@ def replace_module_name(file_contents, old_name, append):
         if file_contents[i].find(MODULE) != -1:
             file_contents[i] = file_contents[i].replace(old_name, old_name+append)
     return file_contents
+
+def interpret_results(output_string):
+    results = {}
+    time = re.search(r'Finished in ([0-9]+)s at ',output_string)
+    if time:
+        results["time"] = int(time.group(1))
+    states = re.search(r'([0-9]+) states generated, ([0-9]+) distinct states found, ',output_string)
+    if states:
+        results["states"] = states.group(1)
+        results["distinct_states"] = states.group(2)
+    
+    behavior = re.search(r'Error: The behavior up to this point is:(.*)states generated, ',output_string)
+    if behavior:
+        results["behaviour"] = behaviour.group(1)
+    
+    result_line = re.search(r'Error: Invariant (.*) is violated.',output_string)
+    if result_line:
+        result = result_line.group(1)
+        results["result"] = result == "Inv"
+        if not results["result"]:
+            info = re.search(r'line ([0-9]+), col ([0-9]+) to line ([0-9]+), col ([0-9]+) of module', result)
+            if info:
+                results["violated"] = {}
+                results["violated"]["line_start"] = info.group(1)
+                results["violated"]["line_end"] = info.group(3)
+                results["violated"]["column_start"] = info.group(2)
+                results["violated"]["column_end"] = info.group(4)
+    
+    return results
+
+
+
+    
+

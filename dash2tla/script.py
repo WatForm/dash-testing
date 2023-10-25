@@ -3,6 +3,7 @@ from dash2tla.run_tests import *
 import os
 import json
 import subprocess
+import re
 
 root_folder = "./models"
 
@@ -25,9 +26,9 @@ def help():
     pass
 
 
-def translate_tests(args):
+def translate_tests(args): # generates .ver files for every .json test, filter applied
     debug = len(args)>0 and args[0] == "debug"
-    files = get_all_absolute_paths(root_folder,"json")
+    files = filter(get_all_absolute_paths(root_folder,"json"),".*","-trace_prop[0-9]+\.json")
     for f in files:
         print(f)
         f_target = f[:-4]+"ver"
@@ -39,8 +40,8 @@ def translate_tests(args):
                 print("----")
     pass
 
-def translate_models():
-    files = get_all_absolute_paths(root_folder,"dsh")
+def translate_models(): # generates .tla translations for the .dsh files, filter applied
+    files = filter(get_all_absolute_paths(root_folder,"dsh"),r".*",r"\.dsh")
     conf = get_config()
     cmd = conf["translation_command"]
     shell = conf["shell"]
@@ -53,30 +54,41 @@ def translate_models():
         print("----")
     pass
 
-    
-def run_all_tests():
-    files = get_all_absolute_paths(root_folder,"tla")
-    props = get_all_absolute_paths(root_folder,"ver")
+def filter(files, regex_start, regex_end):
     conf = get_config()
     if conf["custom_include"]:
         new_files = []
         for f in files:
             for n in conf["include_list"]:
-                if f.endswith(n+".tla"):
+                if re.match(regex_start+n+regex_end,f):
                     new_files.append(f)
-        files = new_files
+    return new_files
+    
+def run_all_tests():
+    files = filter(get_all_absolute_paths(root_folder,"tla"),r".*",r"\.tla")
+    vers = filter(get_all_absolute_paths(root_folder,"ver"),r".*",r"-trace_prop[0-9]+\.ver")
+
     test_mapping = {}
     for f in files:
-        props_f = []
-        for g in props:
+        vers_f = []
+        for g in vers:
             if g.startswith(f[:-4]+"-trace_prop"):
-                props_f.append(g)
-        test_mapping[f] = props_f
+                vers_f.append(g)
+        test_mapping[f] = vers_f
+
+    cfg_file_path = "./dash2tla/test_conf.cfg"
+    conf = get_config()
+    command = conf["run_command"]+" -config "+cfg_file_path
+
     for f in files:
         print(str(len(test_mapping[f]))+" test(s) detected for "+f)
-        for prop in test_mapping[f]:
-            create_test(f,prop)
-    # run test using tla command, the cfg is given in the same folder as test_conf
+        for ver in test_mapping[f]:
+            test_file_path = create_test(f,ver)
+            print("testing:"+ver)
+            cmd = command + " " + test_file_path
+            print(interpret_results(run_command(cmd,conf["shell"])))
+            print("test complete")
+
     # delete theb
 
 def clean():
@@ -119,9 +131,9 @@ def get_config():
     return None
 
 def run_command(cmd,shell):
+    result = ""
     if shell:
-        subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     else: # for unix-based
-        subprocess.run(cmd.split(),stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    pass
-
+        result = subprocess.run(cmd.split(),stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    return result.stdout
