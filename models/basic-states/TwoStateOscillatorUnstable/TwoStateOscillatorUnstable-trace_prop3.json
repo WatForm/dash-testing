@@ -10,7 +10,7 @@
             "conf0": ["Root/B"]
         }
     ],
-    "trace_class": ["A","B"],
-    "for_all": false,
+    "trace_class": ["A","B","A","B"],
+    "for_all": true,
     "expected_result": true
 }

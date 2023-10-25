@@ -74,8 +74,8 @@ def interpret_results(output_string):
         results["time"] = int(time.group(1))
     states = re.search(r'([0-9]+) states generated, ([0-9]+) distinct states found, ',output_string)
     if states:
-        results["states"] = states.group(1)
-        results["distinct_states"] = states.group(2)
+        results["states"] = int(states.group(1))
+        results["distinct_states"] = int(states.group(2))
     
     behavior = re.search(r'Error: The behavior up to this point is:(.*)states generated, ',output_string)
     if behavior:
