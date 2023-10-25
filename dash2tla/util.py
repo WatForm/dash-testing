@@ -1,3 +1,8 @@
+import os
+import re
+import subprocess
+import json
+
 def filter(files, regex_start, regex_end):
     conf = get_config()
     if conf["custom_include"]:

@@ -1,12 +1,9 @@
 from dash2tla.translate_test import *
 from dash2tla.run_tests import *
 from dash2tla.util import *
-import os
-import json
-import subprocess
-import re
 
 root_folder = "./models"
+conf = get_config()
 
 def main(args):
     if len(args) == 0 or args[0] == "help":
@@ -26,37 +23,27 @@ def help():
         print(f.read())
     pass
 
-
 def translate_tests(args): # generates .ver files for every .json test, filter applied
     debug = len(args)>0 and args[0] == "debug"
     files = filter(get_all_absolute_paths(root_folder,"json"),".*","-trace_prop[0-9]+\.json")
     for f in files:
         print(f)
         f_target = f[:-4]+"ver"
-        with open(f,"r") as fx:
-            result = parse(json.load(fx),debug)
-            with open(f_target,"w") as fy:
-                fy.write(result)
-                print(f_target)
-                print("----")
-    pass
-
-def translate_models(): # generates .tla translations for the .dsh files, filter applied
-    files = filter(get_all_absolute_paths(root_folder,"dsh"),r".*",r"\.dsh")
-    conf = get_config()
-    cmd = conf["translation_command"]
-    shell = conf["shell"]
-    for f in files:
-        print(f)
-        f_target = f[0:-3]+"tla"
-        c = cmd+" "+f+" "+f_target
-        run_command(c,shell)
+        translate_test(f, f_target,debug)
         print(f_target)
         print("----")
     pass
 
+def translate_models(): # generates .tla translations for the .dsh files, filter applied
+    files = filter(get_all_absolute_paths(root_folder,"dsh"),r".*",r"\.dsh")
+    for f in files:
+        print(f)
+        f_target = f[0:-3]+"tla"
+        translate_model(f, f_target)
+        print(f_target)
+        print("----")
+    pass
 
-    
 def run_all_tests():
     files = filter(get_all_absolute_paths(root_folder,"tla"),r".*",r"\.tla")
     vers = filter(get_all_absolute_paths(root_folder,"ver"),r".*",r"-trace_prop[0-9]+\.ver")
@@ -69,19 +56,13 @@ def run_all_tests():
                 vers_f.append(g)
         test_mapping[f] = vers_f
 
-    cfg_file_path = "./dash2tla/test_conf.cfg"
-    conf = get_config()
-    command = conf["run_command"]+" -config "+cfg_file_path
 
     for f in files:
         print(str(len(test_mapping[f]))+" test(s) detected for "+f)
         for ver in test_mapping[f]:
-            test_file_path = create_test(f,ver)
             print("testing:"+ver)
-            cmd = command + " " + test_file_path
-            print(interpret_results(run_command(cmd,conf["shell"])))
+            results = run_test(f,ver)
             print("test complete")
-
 
 def clean():
     files = []
@@ -89,4 +70,23 @@ def clean():
     files = files + get_all_absolute_paths(root_folder,"ver")
     delete_files(files)
     print("finished cleaning models")
+    pass
+
+def run_test(model_path, test_path): # path to .tla model and .ver file
+    cfg_file_path = "./dash2tla/test_conf.cfg"
+    test_file_path = create_test(model_path,test_path)
+    cmd = conf["run_command"]+" -config "+cfg_file_path + " " + test_file_path
+    print(interpret_results(run_command(cmd,conf["shell"])))
+    pass
+
+def translate_test(source_path, destination_path,debug): # path to .json file as src and .ver file as destination
+    with open(source_path,"r") as src:
+        result = parse(json.load(src),debug)
+        with open(destination_path,"w") as dest:
+            dest.write(result)
+
+def translate_model(source_path, destination_path): # path to .dsh file as src and .tla file as destination
+    shell = conf["shell"]
+    c = conf["translation_command"]+" "+source_path+" "+destination_path
+    run_command(c,shell)
     pass
