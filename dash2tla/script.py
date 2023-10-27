@@ -35,7 +35,6 @@ def help():
     pass
 
 def translate_tests(): # generates .ver files for every .json test, filter applied
-
     files = filter(get_all_absolute_paths(root_folder,"json"),".*","-trace_prop\d\.json")
     for f in files:
         print(f)
@@ -48,10 +47,11 @@ def translate_tests(): # generates .ver files for every .json test, filter appli
 def translate_models(): # generates .tla translations for the .dsh files, filter applied
     files = filter(get_all_absolute_paths(root_folder,"dsh"),r".*",r"\.dsh")
     for f in files:
-        print(f)
+        if debug:
+            print(f)
         f_target = f[0:-3]+"tla"
         translate_model(f, f_target)
-    pass
+    print(str(len(files))+" models translated")
 
 def run_all_tests():
     files = filter(get_all_absolute_paths(root_folder,"tla"),r".*",r"\.tla")
@@ -67,19 +67,25 @@ def run_all_tests():
 
     
     for f in files:
-        print(str(len(test_mapping[f]))+" test(s) detected for "+f)
+        if not f.endswith("_test.tla"):
+            print(str(len(test_mapping[f]))+" test(s)"+"\t\t"+os.path.basename(f))
         for ver in test_mapping[f]:
-            print(separator)
+            if debug:
+                print("\n")
             test_file_path = f[:-4]+re.search(r'-trace(_prop\d)',ver).group(1)+"_test.tla"
-            print(os.path.basename(test_file_path))
+            file_print = os.path.basename(test_file_path)
             setup_test(f, ver,test_file_path)
             result = run_test(ver,test_file_path,debug)
-            if result["pass"]:
-                print('\x1b[0;32;40m' + 'PASS' + '\x1b[0m')
+            if "pass" not in result:
+                print('\x1b[0;33;40m' + 'ERROR' + '\x1b[0m\t\t'+file_print)
+            elif result["pass"]:
+                print('\x1b[0;32;40m' + 'PASS' + '\x1b[0m\t\t'+file_print)
             else:
-                print('\x1b[0;31;40m' + 'FAIL' + '\x1b[0m')
-            pprint.pprint(result)
-    print(separator)
+                print('\x1b[0;31;40m' + 'FAIL' + '\x1b[0m\t\t'+file_print)
+            if debug:
+                pprint.pprint(result)
+        if debug:
+            print(separator)
 
 def clean():
     files = []
@@ -121,11 +127,11 @@ def run_test(test_path, test_file_path, debug): # path to .tla model and .ver fi
     if debug:
         print(out)
     result["actual_time"] = end_time - start_time
-    result["pass"] = result["result"] == expected
-    if not result["result"]:
-        assert "violated" in result
-        n = result["violated"]
-        result["violated"] = read_file_part(test_file_path,n["line_start"],n["line_end"],n["column_start"],n["column_end"])
+    if "result" in result:
+        result["pass"] = result["result"] == expected
+        if not result["result"]:
+            n = result["violated"]
+            result["violated"] = read_file_part(test_file_path,n["line_start"],n["line_end"],n["column_start"],n["column_end"])
     return result
     pass
 

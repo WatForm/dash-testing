@@ -67,7 +67,7 @@ def process_directory(language, source, destination, additional_args):
                 script_directory = os.path.join("dash2" + language)
                 run_generate(script_directory, source_file, destination_file, additional_args)
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Top-level script for testing dash models")
     parser.add_argument("language", help="target language of translation")
     parser.add_argument("additional_args", nargs=argparse.REMAINDER, help="Additional arguments, passed to language-specific script")
@@ -94,6 +94,14 @@ if __name__ == "__main__":
         print(f"Error: 'main' method not found in {script_path}")
         exit
     
-    
     print("complete")
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('\nInterrupted')
+        sys.exit(0)
+    
 
