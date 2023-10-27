@@ -2,19 +2,15 @@ from dash2tla.syntax import *
 import os
 import re
 
-# to run a test, new file named <x>_test.tla is made
-# a new variable named ct is created (read from syntax)
-# the property is injected into the file
-# a .cfg file is created
-# tla command is called and the test is run
-
 def create_test(file_path, prop_path):# takes in a .tla file and a .ver file and makes a temporary file for testing
     f = open(file_path,"r")
     f_cfg = open(prop_path,"r")
-    temp_file = file_path[:-4]+"_test.tla"
+    module_name = (file_path)[:-4],"_prop"+prop_num+"_test"
+    temp_file = module_name+".tla"
     cfg = f_cfg.readlines()
+    prop_num = re.search(r'-trace_prop(\d).json').group(1)
     f_contents = f.readlines()
-    f_contents = replace_module_name(f_contents,os.path.basename(file_path)[:-4],"_test")
+    f_contents = replace_module_name(f_contents,os.path.basename(module_name)
     f_contents = inject_ct(f_contents)
     f_contents = inject_prop_inv(f_contents, cfg[0], cfg[1])
     with open(temp_file, "w") as c:
@@ -66,20 +62,26 @@ def replace_module_name(file_contents, old_name, append):
         if file_contents[i].find(MODULE) != -1:
             file_contents[i] = file_contents[i].replace(old_name, old_name+append)
     return file_contents
+def setup_test(model_path, test_path):
+    ver = open(test_path,"r")
+    expected = ver.readlines()[2].startswith("true")
+    cfg_file_path = "./dash2tla/test_conf.cfg"
+    test_file_path = create_test(model_path,test_path)
 
 def interpret_results(output_string):
+    print(output_string)
     results = {}
     time = re.search(r'Finished in ([0-9]+)s at ',output_string)
     if time:
-        results["time"] = int(time.group(1))
+        results["reported_time"] = int(time.group(1))
     states = re.search(r'([0-9]+) states generated, ([0-9]+) distinct states found, ',output_string)
     if states:
         results["states"] = int(states.group(1))
         results["distinct_states"] = int(states.group(2))
     
-    behavior = re.search(r'Error: The behavior up to this point is:(.*)states generated, ',output_string)
+    behavior = re.search(r'Error: The behavior up to this point is:(.*)[0-9]+ states generated, ',output_string)
     if behavior:
-        results["behaviour"] = behaviour.group(1)
+        results["behavior"] = behavior.group(1)
     
     result_line = re.search(r'Error: Invariant (.*) is violated.',output_string)
     if result_line:
@@ -89,14 +91,9 @@ def interpret_results(output_string):
             info = re.search(r'line ([0-9]+), col ([0-9]+) to line ([0-9]+), col ([0-9]+) of module', result)
             if info:
                 results["violated"] = {}
-                results["violated"]["line_start"] = info.group(1)
-                results["violated"]["line_end"] = info.group(3)
-                results["violated"]["column_start"] = info.group(2)
-                results["violated"]["column_end"] = info.group(4)
+                results["violated"]["line_start"] = int(info.group(1))
+                results["violated"]["line_end"] = int(info.group(3))
+                results["violated"]["column_start"] = int(info.group(2))
+                results["violated"]["column_end"] = int(info.group(4))
     
     return results
-
-
-
-    
-

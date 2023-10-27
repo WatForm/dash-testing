@@ -22,6 +22,7 @@ A test is a `.json` file which contains the following fields:
     "for_all": // (false by default)
     "expected_result": (true by default)
     "limit": (length of trace_class by default)
+    "description": (ignored by script, used to comment)
 }
 ```
 

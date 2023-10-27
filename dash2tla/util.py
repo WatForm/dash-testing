@@ -50,3 +50,26 @@ def run_command(cmd,shell):
     else: # for unix-based
         result = subprocess.run(cmd.split(),stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     return result.stdout
+
+def read_file_part(file_path, start_line, end_line, start_column, end_column):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    # Ensure valid line and column ranges
+    if start_line < 1 or end_line > len(lines) or start_column < 1:
+        return "Invalid range"
+
+    content = ""
+    for i in range(start_line - 1, end_line):
+        line = lines[i]
+        # Adjust column indices based on Python's 0-based indexing
+        adjusted_start_column = start_column - 1
+        adjusted_end_column = min(end_column, len(line))
+
+        # Ensure valid column range
+        if adjusted_start_column < 0 or adjusted_start_column > adjusted_end_column:
+            return "Invalid range"
+
+        content += line[adjusted_start_column:adjusted_end_column]
+
+    return content
