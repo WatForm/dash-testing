@@ -3,15 +3,22 @@ import re
 import subprocess
 import json
 
-def filter(files, regex_start, regex_end):
+def filter(files):
     conf = get_config()
-    new_files = files
-    if conf["custom_include"]:
-        new_files = []
-        for f in files:
-            for n in conf["include_list"]:
-                if re.match(regex_start+n+regex_end,f):
-                    new_files.append(f)
+    new_files = []
+    for f in files:
+        for r in conf["regex_include"]:
+            if re.fullmatch(r,f):
+                new_files.append(f)
+                break
+    return new_files
+
+def filter_regex(files, regex):
+    new_files = []
+    for f in files:
+        if re.fullmatch(regex,f):
+            new_files.append(f)
+            break
     return new_files
 
 def get_all_absolute_paths(folder, extension):

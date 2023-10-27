@@ -35,27 +35,27 @@ def help():
     pass
 
 def translate_tests(): # generates .ver files for every .json test, filter applied
-    files = filter(get_all_absolute_paths(root_folder,"json"),".*","-trace_prop\d\.json")
+    files = filter(get_all_absolute_paths(root_folder,"json"))
     for f in files:
-        print(f)
+        print(os.path.basename(f))
         f_target = f[:-4]+"ver"
         translate_test(f, f_target,debug)
         if debug:
             print(separator)
-    pass
+        
+    print(str(len(files))+" test(s) translated")
 
 def translate_models(): # generates .tla translations for the .dsh files, filter applied
-    files = filter(get_all_absolute_paths(root_folder,"dsh"),r".*",r"\.dsh")
+    files = filter(get_all_absolute_paths(root_folder,"dsh"))
     for f in files:
-        if debug:
-            print(f)
+        print(os.path.basename(f))
         f_target = f[0:-3]+"tla"
         translate_model(f, f_target)
-    print(str(len(files))+" models translated")
+    print(str(len(files))+" dash model(s) translated")
 
 def run_all_tests():
-    files = filter(get_all_absolute_paths(root_folder,"tla"),r".*",r"\.tla")
-    vers = filter(get_all_absolute_paths(root_folder,"ver"),r".*",r"-trace_prop[0-9]+\.ver")
+    files = filter(get_all_absolute_paths(root_folder,"tla"))
+    vers = filter(get_all_absolute_paths(root_folder,"ver"))
 
     test_mapping = {}
     for f in files:
@@ -68,7 +68,7 @@ def run_all_tests():
     
     for f in files:
         if not f.endswith("_test.tla"):
-            print(str(len(test_mapping[f]))+" test(s)"+"\t\t"+os.path.basename(f))
+            print("\n"+str(len(test_mapping[f]))+" test(s)"+"\t\t"+os.path.basename(f))
         for ver in test_mapping[f]:
             if debug:
                 print("\n")
@@ -93,7 +93,7 @@ def clean():
     files_ver = get_all_absolute_paths(root_folder, "ver")
     files = files + files_tla + files_ver
     delete_files(files,debug)
-    print("deleted "+str(len(files_tla))+" .tla files and "+str(len(files_ver))+" .ver files")
+    print("deleted "+str(len(files_tla))+" .tla file(s) and "+str(len(files_ver))+" .ver file(s)")
     pass
 
 def setup_test(model_path, test_path, test_file_path): # path to .tla model, .ver file and test .tla file
