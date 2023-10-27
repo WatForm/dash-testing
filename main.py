@@ -73,7 +73,6 @@ if __name__ == "__main__":
     parser.add_argument("additional_args", nargs=argparse.REMAINDER, help="Additional arguments, passed to language-specific script")
 
     args = parser.parse_args()
-    print("args parsed")
 
     # Check if 'script.py' exists in 'dash2<x>' directory
     script_directory = os.path.join("dash2" + args.language)

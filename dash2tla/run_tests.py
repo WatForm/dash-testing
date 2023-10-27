@@ -2,26 +2,6 @@ from dash2tla.syntax import *
 import os
 import re
 
-def create_test(file_path, prop_path):# takes in a .tla file and a .ver file and makes a temporary file for testing
-    f = open(file_path,"r")
-    f_cfg = open(prop_path,"r")
-    module_name = (file_path)[:-4],"_prop"+prop_num+"_test"
-    temp_file = module_name+".tla"
-    cfg = f_cfg.readlines()
-    prop_num = re.search(r'-trace_prop(\d).json').group(1)
-    f_contents = f.readlines()
-    f_contents = replace_module_name(f_contents,os.path.basename(module_name)
-    f_contents = inject_ct(f_contents)
-    f_contents = inject_prop_inv(f_contents, cfg[0], cfg[1])
-    with open(temp_file, "w") as c:
-        for t in f_contents:
-            c.write(t)
-    return temp_file
-
-def create_config(filepath):
-    pass
-
-
 def inject_ct(file_contents):
     modified_file = []
     i = 0
@@ -57,11 +37,12 @@ def inject_prop_inv(file_contents, prop, inv):
     return modified_file
     pass
 
-def replace_module_name(file_contents, old_name, append):
+def replace_module_name(file_contents, old_name, new_name):
     for i in range(len(file_contents)):
         if file_contents[i].find(MODULE) != -1:
-            file_contents[i] = file_contents[i].replace(old_name, old_name+append)
+            file_contents[i] = file_contents[i].replace(old_name, new_name)
     return file_contents
+
 def setup_test(model_path, test_path):
     ver = open(test_path,"r")
     expected = ver.readlines()[2].startswith("true")
@@ -69,7 +50,6 @@ def setup_test(model_path, test_path):
     test_file_path = create_test(model_path,test_path)
 
 def interpret_results(output_string):
-    print(output_string)
     results = {}
     time = re.search(r'Finished in ([0-9]+)s at ',output_string)
     if time:
