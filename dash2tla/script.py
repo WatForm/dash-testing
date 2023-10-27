@@ -11,7 +11,7 @@ def main(args):
     elif args[0] == "tests":
         translate_tests(args[1:])
     elif args[0] == "models":
-        translate_models()
+        translate_models(args[1:])
     elif args[0] == "run":
         run_all_tests(args[1:])
     elif args[0] == "clean":
@@ -34,7 +34,7 @@ def translate_tests(args): # generates .ver files for every .json test, filter a
         print("----")
     pass
 
-def translate_models(): # generates .tla translations for the .dsh files, filter applied
+def translate_models(args): # generates .tla translations for the .dsh files, filter applied
     files = filter(get_all_absolute_paths(root_folder,"dsh"),r".*",r"\.dsh")
     for f in files:
         print(f)

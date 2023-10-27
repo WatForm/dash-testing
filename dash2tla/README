@@ -11,4 +11,23 @@ configuration parameters: (as defined in dash2tla/config.json)
 "shell"                 used to define how the script is to invoke shell commands, set to false for UNIX-based systems
 "custom_include"        flag which determines if the tests are run for a specific set of models
 "include_list"          defines the names of the models for which the tests ought to be run when "custom_include" is true
-    
+
+API: (functions inside script.py)
+translate_model(source_path, destination_path)
+  source_path: path to .dsh file
+  destination_path: path to .tla file
+  translates the .dsh file to a .tla file using the command specified in the config file
+  overwrites the .tla file if it already exists
+
+translate_test(source_path, destination_path)
+  source_path: path to .json file
+  destination_path: path to .ver file
+  translates the test in the .json file into a .ver file for setup_test() to use
+  overwrites the .ver file if it already exists
+
+setup_test(model_path, test_path)
+  model_path: path to .tla file
+  test_path: path to .ver file to test
+  sets up a test file with appropriate scaffolding for the test
+ 
+
