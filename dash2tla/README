@@ -6,6 +6,12 @@ models      treads all .dsh models in the models folder and converts them into .
 run         runs all the tests specified in .ver files for the models specified in .tla files
 clean       removes all .ver and .tla files
 
+arguments:
+[dir] <dir_name> [debug]
+
+[dir] <dirname> sets the working directory to <dir_name> for that command alone
+[debug] produces verbose output
+
 
 configuration parameters: (as defined in dash2tla/config.json)
 
@@ -40,7 +46,7 @@ setup_test(model_path, test_path, test_file_path)
 
 run_test(test_path, test_file_path, debug)
   test_path: path to .ver file which holds the translated test
-  test_file_path: path to test file with the appropriate scaffolding for running a test
+  test_file_path: path to .tla test file with the appropriate scaffolding for running a test
   debug: boolean value, prints the TLC model checker's whole output, if set to true
   runs the test and returns relevant information as a dictionary
   structure of the result dict:

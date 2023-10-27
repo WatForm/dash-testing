@@ -5,6 +5,7 @@ import json
 
 def filter(files, regex_start, regex_end):
     conf = get_config()
+    new_files = files
     if conf["custom_include"]:
         new_files = []
         for f in files:
@@ -30,11 +31,12 @@ def get_all_absolute_paths(folder, extension):
 
     return file_paths
 
-def delete_files(file_paths):
+def delete_files(file_paths, debug):
     for file_path in file_paths:
         try:
             os.remove(file_path)
-            print(f"Deleted file: {file_path}")
+            if debug:
+                print(f"Deleted file: {file_path}")
         except OSError as e:
             print(f"Error deleting {file_path}: {e}")
 
