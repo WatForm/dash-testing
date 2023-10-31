@@ -16,14 +16,14 @@ def parse(data, debug):
 
     result = ""
 
-    if "for_all" in data and data["for_all"]:
+    if "quantifier" in data and data["quantifier"] == "A":
         result = result + for_all(data, debug)
     else:
         result = result + there_exists(data, debug)
     if "limit" in data:
-        result = result + "\n" + ct + LESSER + str(data["limit"])
+        result = result + "\n"+ str(data["limit"])
     else:
-        result = result + "\n" + ct + LESSER + str(len(data["trace_class"]))
+        result = result + "\n" + str(len(data["trace_class"]))
     if "expected_result" in data and not data["expected_result"]:
         result = result + "\nfalse"
     else:

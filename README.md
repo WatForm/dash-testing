@@ -19,7 +19,7 @@ A test is a `.json` file which contains the following fields:
         },
     ]
     "trace_class":[]
-    "for_all": // (false by default)
+    "quantifier": (either "A" or "E", "E" by default)
     "expected_result": (true by default)
     "limit": (length of trace_class by default)
     "description": (ignored by script, used to comment)
@@ -41,6 +41,13 @@ The test is considered `pass` if the running of the test results in success or f
 - `expected_value=true` and `success` implies `PASS`
 - `expected_value=false` and `fail` imples `PASS`
 - else `FAIL`
+
+Interpreting `quantifier`:
+
+- `"E"` checks if there exists some trace produced by the model is in the trace-class.
+
+- `"A"` checks if all traces produced by the model are in the trace class.
+
 
 ## Adding models and tests
 

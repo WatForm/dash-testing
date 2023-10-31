@@ -68,10 +68,12 @@ def run_all_tests():
     
     for f in files:
         if not f.endswith("_test.tla"):
+            if debug:
+                print(separator)
             print("\n"+str(len(test_mapping[f]))+" test(s)"+"\t\t"+os.path.basename(f))
         for ver in test_mapping[f]:
             if debug:
-                print("\n")
+                print(separator)
             test_file_path = f[:-4]+re.search(r'-trace(_prop\d)',ver).group(1)+"_test.tla"
             file_print = os.path.basename(test_file_path)
             setup_test(f, ver,test_file_path)
@@ -83,9 +85,9 @@ def run_all_tests():
             else:
                 print('\x1b[0;31;40m' + 'FAIL' + '\x1b[0m\t\t'+file_print)
             if debug:
+                print("\n")
                 pprint.pprint(result)
-        if debug:
-            print(separator)
+        
 
 def clean():
     files = []
@@ -107,7 +109,8 @@ def setup_test(model_path, test_path, test_file_path): # path to .tla model, .ve
 
     f_contents = replace_module_name(f_contents,old_name,new_name)
     f_contents = inject_ct(f_contents)
-    f_contents = inject_prop_inv(f_contents, cfg[0], cfg[1])
+    f_contents = inject_prop(f_contents, cfg[0])
+    f_contents = inject_inc(f_contents, cfg[1][:-1])
     with open(test_file_path, "w") as c:
         for t in f_contents:
             c.write(t)
@@ -119,21 +122,27 @@ def run_test(test_path, test_file_path, debug): # path to .tla model and .ver fi
     cmd = conf["run_command"]+" -config "+cfg_file_path + " " + test_file_path
     shell = conf['shell']
 
-    start_time = time.time()
-    out = run_command(cmd,shell)
-    end_time = time.time()
+    start_time = 0
+    end_time = 0
+    attempts = 3
+    out = ""
+    while attempts > 0:
+        start_time = time.time()
+        out = run_command(cmd,shell)
+        end_time = time.time()
+        attempts = attempts - 1
+        if len(out)!=0:
+            break
 
     result = interpret_results(out)
-    if debug:
-        print(out)
+
+    if attempts == 0:
+        result["debug"]="timeout. No result obtained after running test due to pipe issues in script"
+    
     result["actual_time"] = end_time - start_time
     if "result" in result:
         result["pass"] = result["result"] == expected
-        if not result["result"]:
-            n = result["violated"]
-            result["violated"] = read_file_part(test_file_path,n["line_start"],n["line_end"],n["column_start"],n["column_end"])
     return result
-    pass
 
 def translate_test(source_path, destination_path,debug): # path to .json file as src and .ver file as destination
     with open(source_path,"r") as src:

@@ -2,6 +2,9 @@ from dash2tla.syntax import *
 import os
 import re
 
+def inject_changes(file_contents):
+    return inject_inc(inject_prop(inject(ct)))
+
 def inject_ct(file_contents):
     modified_file = []
     i = 0
@@ -18,7 +21,7 @@ def inject_ct(file_contents):
         elif x.startswith(NEXT):
             modified_file.append(x)
             i=i+2
-            new_string = "\t" + OR + " " + parenthesis(TRANSITION + " " + AND + " " + ct_prime+EQUAL+ct+"+1")+"\n"
+            new_string = "\t" + OR + " " + parenthesis(TRANSITION + " " + AND + " " + ct_prime+EQUAL+INCREMENT+parenthesis(ct))+"\n"
             modified_file.append(new_string)
             new_string = "\t" + OR + " " + parenthesis(STUTTER + " " + AND + " " + ct_prime+EQUAL+ct)+"\n"
             modified_file.append(new_string)
@@ -27,15 +30,24 @@ def inject_ct(file_contents):
         i = i+1
     return modified_file
 
-def inject_prop_inv(file_contents, prop, inv):
+def inject_prop(file_contents, prop):
     modified_file = []
     for x in file_contents:
         if x.startswith(EOF):
-            new_string = "\n"+ PROPERTY + " " + DEFINITION + " " + prop + "\n" + INVARIANT +" "+ DEFINITION + " " + inv + "\n"
+            new_string = "\n"+ PROPERTY + " " + DEFINITION + " " + prop + "\n"
             modified_file.append(new_string)
         modified_file.append(x)
     return modified_file
-    pass
+
+def inject_inc(file_contents, lim):
+    modified_file = []
+    for x in file_contents:
+        if x.startswith(NEXT):
+            new_string = "\n" + INCREMENT+parenthesis(n)+" "+DEFINITION+" "+IF+" "+n+LESSER+lim+" "+THEN+" "+n+"+1 "+ELSE+" "+ct+"\n\n"
+            modified_file.append(new_string)
+        modified_file.append(x)
+    return modified_file
+
 
 def replace_module_name(file_contents, old_name, new_name):
     for i in range(len(file_contents)):
@@ -58,22 +70,21 @@ def interpret_results(output_string):
     if states:
         results["states"] = int(states.group(1))
         results["distinct_states"] = int(states.group(2))
+
+    pf = re.search(r"No error has been found",output_string)
+    if pf:
+        results["result"] = True
+        return results
+
+    pf = re.search(r"Error:( .* violated\.)",output_string)
+    if not pf:
+        results["debug"] = output_string
+        return results
     
-    behavior = re.search(r'Error: The behavior up to this point is:(.*)[0-9]+ states generated, ',output_string)
+    results["result"] = False
+    results["error"] = pf.group(1)
+    behavior = re.compile(r'Error: The following behaviour constitutes a counter-example:(.*)Finished checking temporal properties, ',re.DOTALL).search(output_string)
     if behavior:
-        results["behavior"] = behavior.group(1)
-    
-    result_line = re.search(r'Error: Invariant (.*) is violated.',output_string)
-    if result_line:
-        result = result_line.group(1)
-        results["result"] = result == "Inv"
-        if not results["result"]:
-            info = re.search(r'line ([0-9]+), col ([0-9]+) to line ([0-9]+), col ([0-9]+) of module', result)
-            if info:
-                results["violated"] = {}
-                results["violated"]["line_start"] = int(info.group(1))
-                results["violated"]["line_end"] = int(info.group(3))
-                results["violated"]["column_start"] = int(info.group(2))
-                results["violated"]["column_end"] = int(info.group(4))
+        results["counter_example"] = behavior.group(1)
     
     return results

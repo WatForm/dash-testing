@@ -11,6 +11,6 @@
         }
     ],
     "trace_class": ["A","B","A","B"],
-    "for_all": true,
+    "quantifier": "A",
     "expected_result": true
 }

@@ -1,8 +1,8 @@
 conf_name = "_conf"
 PROPERTY = "Prop"
-INVARIANT = "Inv"
 ct = "_ct"
 ct_prime = ct+"'"
+n = "n"
 EOF = "===="
 VARIABLES = "VARIABLES"
 MODULE = "MODULE"
@@ -23,3 +23,7 @@ def F(x):
     return "<>"+parenthesis(x)
 def parenthesis(x):
     return "("+x+")"
+IF = "IF"
+ELSE = "ELSE"
+THEN = "THEN"
+INCREMENT = "_Increment"
