@@ -1,10 +1,10 @@
 # any artefact produced in model
-/models/**/*
-!/models/**/*.json
-!/models/**/*.dsh
+models/**/*.*
+!models/**/*.json
+!models/**/*.dsh
 
 # tlc produces states folder
-/states/**/*
+states/
 
 
 # Byte-compiled / optimized / DLL files

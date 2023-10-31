@@ -1,0 +1,17 @@
+{
+    "description":"testing universal quantifier with expected=false",
+    "snapshots":
+    [
+        {
+            "name": "A",
+            "conf0": ["Root/A"]
+        },
+        {
+            "name": "B",
+            "conf0": ["Root/B"]
+        }
+    ],
+    "trace_class": ["A","B","B"],
+    "quantifier": "A",
+    "expected_result": false
+}

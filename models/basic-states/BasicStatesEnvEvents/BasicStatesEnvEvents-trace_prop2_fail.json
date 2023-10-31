@@ -1,0 +1,23 @@
+{
+    "snapshots":
+    [
+        {
+            "name": "S1",
+            "conf0": ["Root/S1"]
+        },
+        {
+            "name": "S2",
+            "conf0": ["Root/S2"]
+        },
+        {
+            "name": "S3",
+            "conf0": ["Root/S3"]
+        },
+        {
+            "name": "S4",
+            "conf0": ["Root/S4"]
+        }
+    ],
+
+    "trace_class": ["S1", "S2", "S3", "S2", "S3", "S4", "S3", "S2"]
+}
