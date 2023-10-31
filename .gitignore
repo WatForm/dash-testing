@@ -1,7 +1,7 @@
 # any artefact produced in model
 /models/**/*
-!/models/**/*.dsh
 !/models/**/*.json
+!/models/**/*.dsh
 
 # tlc produces states folder
 /states/**/*
