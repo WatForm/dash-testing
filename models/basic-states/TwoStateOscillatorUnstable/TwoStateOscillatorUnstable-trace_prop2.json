@@ -1,4 +1,5 @@
 {
+    "description":"testing existential quantifier with expected=false",
     "snapshots":
     [
         {

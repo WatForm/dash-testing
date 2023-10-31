@@ -174,8 +174,8 @@ def there_exists(data, debug=False): # property to verify that at least one trac
             pass
     
     if debug:
-        print("formula:"+getList(enclose(or_list_debug," "," "),OR))
-    return getList(enclose(or_list,"(",")"),OR)
+        print("formula:"+getList(enclose(or_list_debug,NOT+"(",")"),OR))
+    return getList(enclose(or_list,NOT+"(",")"),OR)
 
     pass
     
