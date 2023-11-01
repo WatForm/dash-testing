@@ -1,5 +1,8 @@
 {
     "description":"testing existential quantifier with expected=true",
+    "trace_class": ["A","B"],
+    "quantifier": "E",
+    "expected_result": true,
     "snapshots":
     [
         {
@@ -10,8 +13,5 @@
             "name": "B",
             "conf0": ["Root/B"]
         }
-    ],
-    "trace_class": ["A","B"],
-    "quantifier": "E",
-    "expected_result": true
+    ]
 }

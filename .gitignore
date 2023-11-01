@@ -1,5 +1,5 @@
 # any artefact produced in model
-models/**/*.*
+models/**/*
 !models/**/*.json
 !models/**/*.dsh
 

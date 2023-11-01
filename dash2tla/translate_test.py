@@ -18,8 +18,10 @@ def parse(data, debug):
 
     if "quantifier" in data and data["quantifier"] == "A":
         result = result + for_all(data, debug)
+        result = result + "\n" + "A"
     else:
         result = result + there_exists(data, debug)
+        result = result + "\n" + "E"
     if "limit" in data:
         result = result + "\n"+ str(data["limit"])
     else:
@@ -174,9 +176,24 @@ def there_exists(data, debug=False): # property to verify that at least one trac
             pass
     
     if debug:
-        print("formula:"+getList(enclose(or_list_debug,NOT+"(",")"),OR))
-    return getList(enclose(or_list,NOT+"(",")"),OR)
+        print("formula:"+getList(enclose(or_list_debug,"",""),OR))
+    return getList(enclose(or_list,"(",")"),OR)
 
-    pass
+"""
+explaining the logic of existential quantifier using strings:
+Let S be a set of strings
+claim: "ABC" belongs to S
+One needs to write this claim using only universal quantifier over S
+can be written as:
+E x \in S: x = "ABC"
+Ex:P(x) == ~Ax:~P(x)
+so it can be written as:
+~(Ax \in S: x != "ABC")
+Let x = PQR
+x != ABC can be written as:
+P!="A" \/ Q!="B" \/ R!="C"
+idea: assert the opposite and get it to generate a counterexample
+thus the presence of an error conforms the assertion
+"""
     
 

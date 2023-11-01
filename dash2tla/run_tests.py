@@ -76,7 +76,7 @@ def interpret_results(output_string):
         results["result"] = True
         return results
 
-    pf = re.search(r"Error:( .* violated\.)",output_string)
+    pf = re.search(r"Error:(.*)",output_string)
     if not pf:
         results["debug"] = output_string
         return results

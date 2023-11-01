@@ -57,6 +57,7 @@ def run_all_tests():
     files = filter(get_all_absolute_paths(root_folder,"tla"))
     vers = filter(get_all_absolute_paths(root_folder,"ver"))
 
+
     test_mapping = {}
     for f in files:
         vers_f = []
@@ -65,16 +66,17 @@ def run_all_tests():
                 vers_f.append(g)
         test_mapping[f] = vers_f
 
-    
+    ct=0
     for f in files:
         if not f.endswith("_test.tla"):
+            ct=ct+1
             if debug:
                 print(separator)
             print("\n"+str(len(test_mapping[f]))+" test(s)"+"\t\t"+os.path.basename(f))
         for ver in test_mapping[f]:
             if debug:
                 print(separator)
-            test_file_path = f[:-4]+re.search(r'-trace(_prop\d)',ver).group(1)+"_test.tla"
+            test_file_path = f[:-4]+re.search(r'-trace(_prop\d+)',ver).group(1)+"_test.tla"
             file_print = os.path.basename(test_file_path)
             setup_test(f, ver,test_file_path)
             result = run_test(ver,test_file_path,debug)
@@ -87,6 +89,7 @@ def run_all_tests():
             if debug:
                 print("\n")
                 pprint.pprint(result)
+    print(str(ct)+" model(s) identified")
         
 
 def clean():
@@ -110,21 +113,22 @@ def setup_test(model_path, test_path, test_file_path): # path to .tla model, .ve
     f_contents = replace_module_name(f_contents,old_name,new_name)
     f_contents = inject_ct(f_contents)
     f_contents = inject_prop(f_contents, cfg[0])
-    f_contents = inject_inc(f_contents, cfg[1][:-1])
+    f_contents = inject_inc(f_contents, cfg[2][:-1])
     with open(test_file_path, "w") as c:
         for t in f_contents:
             c.write(t)
 
 def run_test(test_path, test_file_path, debug): # path to .tla model and .ver file
-    ver = open(test_path,"r")
-    expected = ver.readlines()[2].startswith("true")
+    ver_lines = open(test_path,"r").readlines()
+    expected = ver_lines[3].startswith("true")
+    quantifier = ver_lines[1][0]
     cfg_file_path = "./dash2tla/test_conf.cfg"
     cmd = conf["run_command"]+" -config "+cfg_file_path + " " + test_file_path
     shell = conf['shell']
 
     start_time = 0
     end_time = 0
-    attempts = 3
+    attempts = 10
     out = ""
     while attempts > 0:
         start_time = time.time()
@@ -142,6 +146,8 @@ def run_test(test_path, test_file_path, debug): # path to .tla model and .ver fi
     result["actual_time"] = end_time - start_time
     if "result" in result:
         result["pass"] = result["result"] == expected
+        if quantifier == "E":
+            result["pass"] = ~result["pass"]
     return result
 
 def translate_test(source_path, destination_path,debug): # path to .json file as src and .ver file as destination
