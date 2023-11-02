@@ -1,3 +1,5 @@
+// 3 states, 0->1->2->0... (unstable)
+
 state SRoot {
     default state S0 {
         trans t1 {

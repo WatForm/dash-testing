@@ -1,6 +1,6 @@
 {
     "trace_class": ["S0", "S1", "S2", "S0"],
-    "quantifier": "forall",
+    "quantifier": "exists",
     "snapshots":
     [
         {
