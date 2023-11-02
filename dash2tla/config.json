@@ -2,7 +2,7 @@
     "translation_command":"java -cp ../org.alloytools.alloy/org.alloytools.alloy.dist/target/org.alloytools.alloy.dist.jar ca.uwaterloo.watform.dash4whole.Dash -tla",
     "run_command":"java -jar ../software/toolbox/tla2tools.jar",
     "shell":false,
-    "regex_include":[
+    "regex_include_files":[
         ".*stable.*",
         "BasicStates.*"
     ]

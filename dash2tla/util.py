@@ -7,7 +7,7 @@ def filter(files):
     conf = get_config()
     new_files = []
     for f in files:
-        for r in conf["regex_include"]:
+        for r in conf["regex_include_files"]:
             if re.fullmatch(r,f):
                 new_files.append(f)
                 break

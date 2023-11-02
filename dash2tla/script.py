@@ -121,7 +121,7 @@ def setup_test(model_path, test_path, test_file_path): # path to .tla model, .ve
 def run_test(test_path, test_file_path, debug): # path to .tla model and .ver file
     ver_lines = open(test_path,"r").readlines()
     expected = ver_lines[3].startswith("true")
-    quantifier = ver_lines[1][0]
+    quantifier = ver_lines[1][:-1]
     cfg_file_path = "./dash2tla/test_conf.cfg"
     cmd = conf["run_command"]+" -config "+cfg_file_path + " " + test_file_path
     shell = conf['shell']
