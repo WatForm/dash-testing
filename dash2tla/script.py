@@ -146,7 +146,7 @@ def run_test(test_path, test_file_path, debug): # path to .tla model and .ver fi
     result["actual_time"] = end_time - start_time
     if "result" in result:
         result["pass"] = result["result"] == expected
-        if quantifier == "E":
+        if quantifier == "exists":
             result["pass"] = ~result["pass"]
     return result
 

@@ -1,8 +1,8 @@
 {
-    "description":"testing universal quantifier with expected=false",
-    "trace_class": ["A","B","B"],
+    "description":"unit length testing universal quantifier with expected=true",
+    "trace_class": ["A"],
     "quantifier": "forall",
-    "expected_result": false,
+    "expected_result": true,
     "snapshots":
     [
         {

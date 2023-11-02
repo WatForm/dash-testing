@@ -3,6 +3,7 @@
     "run_command":"java -jar ../software/toolbox/tla2tools.jar",
     "shell":false,
     "regex_include":[
-        ".*stable.*"
+        ".*stable.*",
+        "BasicStates.*"
     ]
 }

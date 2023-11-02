@@ -16,12 +16,12 @@ def parse(data, debug):
 
     result = ""
 
-    if "quantifier" in data and data["quantifier"] == "A":
+    if "quantifier" in data and data["quantifier"] == "forall":
         result = result + for_all(data, debug)
-        result = result + "\n" + "A"
+        result = result + "\n" + "forall"
     else:
         result = result + there_exists(data, debug)
-        result = result + "\n" + "E"
+        result = result + "\n" + "exists"
     if "limit" in data:
         result = result + "\n"+ str(data["limit"])
     else:

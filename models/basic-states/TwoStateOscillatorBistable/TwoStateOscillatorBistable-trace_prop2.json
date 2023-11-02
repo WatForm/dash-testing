@@ -1,6 +1,6 @@
 {
     "description":"testing existential quantifier with expected=false",
-    "trace_class": ["A","C","B"],
+    "trace_class": ["B","A","B"],
     "quantifier": "exists",
     "expected_result": false,
     "snapshots":
@@ -12,10 +12,6 @@
         {
             "name": "B",
             "conf0": ["Root/B"]
-        },
-        {
-            "name": "C",
-            "conf0": ["Root/C"]
         }
     ]
 }

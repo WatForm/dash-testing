@@ -1,7 +1,7 @@
 {
     "description":"testing universal quantifier with expected=true",
     "trace_class": ["A","B","A","B"],
-    "quantifier": "A",
+    "quantifier": "forall",
     "expected_result": true,
     "snapshots":
     [
