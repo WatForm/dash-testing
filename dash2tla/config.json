@@ -3,8 +3,8 @@
     "run_command":"java -jar ../software/toolbox/tla2tools.jar",
     "shell":false,
     "regex_include_files":[
-        "stable.*",
+        ".*Bistable.*",
         "BasicStates.*",
-        ".*concurrency.*"
+        "concurrency.*"
     ]
 }
