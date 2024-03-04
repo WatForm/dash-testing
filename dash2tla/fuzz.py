@@ -20,6 +20,12 @@ def get_paths():
     global dot_path
     return output_path, dot_path
 
+"""
+depth = depth of tree
+num = number of nodes
+and_prob = probability of a node being an AND node
+transition_density = probability of a transition existing between any given pair of nodes
+"""
 
 def fuzz_main(depth=2, num=10, and_prob=0.5, transition_density=0.1):
     output_path, dot_path = get_paths()
@@ -63,9 +69,9 @@ def probability(x):
 
 
 def random_cross_hatch(state_list,density):
-    for s1 in state_list:
-        for s2 in state_list:
-            if random.random() < density:
+    for i in range(len(state_list)):
+        for j in range(len(state_list)):
+            if random.random() < density and i<=j:
                 transition_name = s1.name+"_to_"+s2.name
                 t = Transition(transition_name)
                 t.goto = s2
