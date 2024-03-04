@@ -37,12 +37,12 @@ def write_transition(root_state):
         transcript+="\n"+x_from.name+" -> "+x.goto.name+" [style="+TRANSITION_STYLE+",color="+TRANSITION_COLOR+"]"
     
 
-def write_to_graph(root_state):
+def write_to_graph(root_state, filepath):
     global transcript
     write_state(root_state)
     write_transition(root_state)
     transcript+="\n}"
-    with open('fuzz.dot', 'w') as file:
+    with open(filepath, 'w') as file:
         # Write the content of transcript to the file
         file.write(transcript)
 

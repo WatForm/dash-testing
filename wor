@@ -1,0 +1,40 @@
+Digraph
+{
+SRoot
+n_0_3
+n_1_1{rank=same; }
+n_0_3 -> n_1_1
+n_1_4{rank=same; }
+n_0_3 -> n_1_4{rank=same; n_1_1; n_1_4; }
+SRoot -> n_0_3
+n_0_4
+n_1_0[color=red]{rank=same; }
+n_0_4 -> n_1_0[color=red]{rank=same; n_1_0; }
+SRoot -> n_0_4
+n_0_0[color=red]
+n_1_3{rank=same; }
+n_0_0 -> n_1_3{rank=same; n_1_3; }
+SRoot -> n_0_0[color=red]
+n_0_1[color=red]
+n_1_2[color=red]{rank=same; }
+n_0_1 -> n_1_2[color=red]{rank=same; n_1_2; }
+SRoot -> n_0_1[color=red]
+n_0_2[color=red]{rank=same; }
+SRoot -> n_0_2[color=red]{rank=same; n_0_3; n_0_4; n_0_0; n_0_1; n_0_2; }
+n_1_3 -> SRoot [style=dotted,color=blue]
+n_1_3 -> n_1_0 [style=dotted,color=blue]
+n_1_3 -> n_1_1 [style=dotted,color=blue]
+n_1_3 -> n_1_2 [style=dotted,color=blue]
+n_1_3 -> n_1_3 [style=dotted,color=blue]
+n_1_2 -> n_1_3 [style=dotted,color=blue]
+n_1_1 -> n_1_1 [style=dotted,color=blue]
+n_1_4 -> n_0_0 [style=dotted,color=blue]
+n_0_3 -> n_1_3 [style=dotted,color=blue]
+n_1_0 -> n_0_1 [style=dotted,color=blue]
+n_0_4 -> SRoot [style=dotted,color=blue]
+n_0_4 -> n_1_1 [style=dotted,color=blue]
+n_0_4 -> n_1_2 [style=dotted,color=blue]
+n_0_4 -> n_1_3 [style=dotted,color=blue]
+SRoot -> n_0_0 [style=dotted,color=blue]
+SRoot -> n_0_2 [style=dotted,color=blue]
+}
