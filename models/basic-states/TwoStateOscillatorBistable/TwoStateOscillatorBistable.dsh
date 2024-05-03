@@ -14,5 +14,15 @@ state Root {
         trans t4 {
             goto B
         }
+        trans t5{
+            goto C
+        }
+    }
+    state C {
+        trans t6
+        {
+            goto B
+        }
+
     }
 }
