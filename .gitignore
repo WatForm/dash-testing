@@ -1,6 +1,5 @@
 # any artefact produced in model
 *.tla
-*.ver
 **/*.toolbox/**/*
 
 workspace/
