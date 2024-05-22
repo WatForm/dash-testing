@@ -1,0 +1,21 @@
+{
+    "trace_class": ["S0", "S1", "S2", "S0"],
+    "quantifier": "exists",
+    "snapshots":
+    [
+        {
+            "name": "S0",
+            "conf0": ["SRoot/S0"]
+        },
+        {
+            "name": "S1",
+            "conf0": ["SRoot/S1"]
+        },
+        {
+            "name": "S2",
+            "conf0": ["SRoot/S2"]
+        }
+    ]
+
+    
+}
