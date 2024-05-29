@@ -1,4 +1,5 @@
 # any artefact produced in model
+*.temp
 *.tla
 **/*.toolbox/**/*
 
