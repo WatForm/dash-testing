@@ -1,4 +1,8 @@
-from dash2tla.lib import *
+"""
+Allows defining a custom command to be called from the top-level script
+"""
+
+from lib import *
 
 DEST = "./dash2tla/workspace/"
 

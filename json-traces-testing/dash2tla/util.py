@@ -1,9 +1,17 @@
+"""
+General-purpose functions to deal with file management
+"""
+
 import os
 import re
 import subprocess
 import json
+from config import *
 
 def filter(files):
+    """
+    Reads `config.json` and filters out the strings in list `files` which do not match the inclusion regexes
+    """
     conf = get_config()
     new_files = []
     for f in files:
@@ -13,15 +21,12 @@ def filter(files):
                 break
     return new_files
 
-def filter_regex(files, regex):
-    new_files = []
-    for f in files:
-        if re.fullmatch(regex,f):
-            new_files.append(f)
-            break
-    return new_files
-
 def get_all_absolute_paths(folder, extension):
+    """
+    This function returns all files of a given extension contained in a folder or any of its subfolders
+
+    `folder` is a string-type path to the top-level folder, `extension` is a string-type representation of the extension to search for
+    """
     # Create an empty list to store the absolute paths of matching files
     file_paths = []
 
@@ -39,6 +44,9 @@ def get_all_absolute_paths(folder, extension):
     return file_paths
 
 def delete_files(file_paths, debug):
+    """
+    deletes all files pointed to in the string list `file_paths`, `debug=True` for verbose output showing the names of the deleted files
+    """
     for file_path in file_paths:
         try:
             os.remove(file_path)
@@ -47,12 +55,11 @@ def delete_files(file_paths, debug):
         except OSError as e:
             print(f"Error deleting {file_path}: {e}")
 
-def get_config():
-    with open("./dash2tla/config.json","r") as f:
-        return json.load(f)
-    return None
 
 def run_command(cmd,shell):
+    """
+    runs command `cmd` (string), `shell` is False for unix-based systems, returns `stdout`
+    """
     result = ""
     if shell:
         result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -61,6 +68,9 @@ def run_command(cmd,shell):
     return result.stdout
 
 def read_file_part(file_path, start_line, end_line, start_column, end_column):
+    """
+    opens the file at `file_path` and reads the lines specified in the arguments
+    """
     with open(file_path, 'r') as file:
         lines = file.readlines()
 

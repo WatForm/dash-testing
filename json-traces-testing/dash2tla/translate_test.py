@@ -1,7 +1,38 @@
-from dash2tla.syntax import *
+"""
+Explaining the logic of existential quantifier using strings:
+
+Let S be a set of strings
+
+claim: "ABC" belongs to S
+
+One needs to write this claim using only universal quantifier over S.
+
+This can be written as:
+
+:math:`\exists x \in S: x = "ABC"`
+
+:math:`\exists x : P(x) = ~Ax:~P(x)`
+
+so it can be written as:
+
+:math:`~(\forall x \in S: x != "ABC")`
+
+Let :math:`x = PQR`
+
+:math:`x != ABC` can be written as:
+
+:math:`P!="A" \/ Q!="B" \/ R!="C"`
+
+Idea: assert the opposite and get it to generate a counterexample - thus the presence of an error confirms the assertion
+"""
+
+from syntax import *
 
 
 def parse(data, debug):
+    """
+    Top-level function which produces the (TODO: what does it produce?), `debug=True` prints verbose output to stdout.
+    """
 
     objects = data["snapshots"]
 
@@ -34,6 +65,12 @@ def parse(data, debug):
 
 
 def get_object_named(snapshots,x):
+    """
+    `snapshots` is a list of dictionary objects, all of whom have "name" as a required field. This function returns the object whose name is `x`.
+
+
+    For instance: if snapshots = [{"name":"t","v1":"v2"...},...], then get_object_named(snapshots,"name") returns snapshots[0].
+    """
 
     for o in snapshots:
 
@@ -47,6 +84,9 @@ def get_object_named(snapshots,x):
 
 
 def state(object): # clause which says that system is in current state
+    """
+    returns a string clause which says that the system is in the state described by the object
+    """
 
     clause = ""
 
@@ -133,7 +173,6 @@ def for_all(data, debug=False): # property to test if all traces are members of 
     if debug:
         print("formula:"+getList(enclose(and_list_debug," "," "),AND))
     return getList(enclose(and_list,"(",")"),AND)
-    pass
 
 
 def there_exists(data, debug=False): # property to verify that at least one trace is part of the trace-class
@@ -173,27 +212,11 @@ def there_exists(data, debug=False): # property to verify that at least one trac
             or_clause_debug = getList(enclose(or_list_inner_debug,"",""),OR)
             or_list.append(G(ct+" "+EQUAL+" "+str(c)+" "+IMPLIES+" "+NOT+parenthesis(or_clause)))
             or_list_debug.append(G(str(c)+" "+IMPLIES+" "+NOT+parenthesis(or_clause_debug)))
-            pass
     
     if debug:
         print("formula:"+getList(enclose(or_list_debug,"",""),OR))
     return getList(enclose(or_list,"(",")"),OR)
 
-"""
-explaining the logic of existential quantifier using strings:
-Let S be a set of strings
-claim: "ABC" belongs to S
-One needs to write this claim using only universal quantifier over S
-can be written as:
-E x \in S: x = "ABC"
-Ex:P(x) == ~Ax:~P(x)
-so it can be written as:
-~(Ax \in S: x != "ABC")
-Let x = PQR
-x != ABC can be written as:
-P!="A" \/ Q!="B" \/ R!="C"
-idea: assert the opposite and get it to generate a counterexample
-thus the presence of an error conforms the assertion
-"""
+
     
 

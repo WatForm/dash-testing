@@ -1,5 +1,5 @@
-from dash2tla.lib import *
-from dash2tla.custom import *
+from lib import *
+from custom import *
 
 def main(args):
     if len(args) == 0:

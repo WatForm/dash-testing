@@ -1,4 +1,4 @@
-from dash2tla.syntax import *
+from syntax import *
 import os
 import re
 

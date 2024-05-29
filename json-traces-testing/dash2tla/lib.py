@@ -1,6 +1,6 @@
-from dash2tla.translate_test import *
-from dash2tla.run_tests import *
-from dash2tla.util import *
+from translate_test import *
+from run_tests import *
+from util import *
 import time
 import pprint
 

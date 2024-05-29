@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>util module &#8212; dash2tla 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-util">
+<span id="util-module"></span><h1>util module<a class="headerlink" href="#module-util" title="Link to this heading">¶</a></h1>
+<p>General-purpose functions to deal with file management</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.delete_files">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">delete_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util.html#delete_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.delete_files" title="Link to this definition">¶</a></dt>
+<dd><p>deletes all files pointed to in the string list <cite>file_paths</cite>, <cite>debug=True</cite> for verbose output showing the names of the deleted files</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.filter">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util.html#filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.filter" title="Link to this definition">¶</a></dt>
+<dd><p>Reads <cite>config.json</cite> and filters out the strings in list <cite>files</cite> which do not match the inclusion regexes</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.get_all_absolute_paths">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">get_all_absolute_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util.html#get_all_absolute_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.get_all_absolute_paths" title="Link to this definition">¶</a></dt>
+<dd><p>This function returns all files of a given extension contained in a folder or any of its subfolders</p>
+<p><cite>folder</cite> is a string-type path to the top-level folder, <cite>extension</cite> is a string-type representation of the extension to search for</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.read_file_part">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">read_file_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util.html#read_file_part"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.read_file_part" title="Link to this definition">¶</a></dt>
+<dd><p>opens the file at <cite>file_path</cite> and reads the lines specified in the arguments</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.run_command">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">run_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shell</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util.html#run_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.run_command" title="Link to this definition">¶</a></dt>
+<dd><p>runs command <cite>cmd</cite> (string), <cite>shell</cite> is False for unix-based systems, returns <cite>stdout</cite></p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">dash2tla</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Mathew Kuthur James.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/util.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
