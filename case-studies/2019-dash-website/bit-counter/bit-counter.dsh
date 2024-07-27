@@ -2,7 +2,7 @@
  * Title: bit-counter.dsh
  * Authors: Jose Serna
  * Created: 14-04-2018
- * Last modified: 07-06-2023 Nancy Day
+ * Last modified: 2024-07-24 Nancy Day
  *
  * Notes: Two bit counter model taken from Shahram's PhD thesis
  *
@@ -13,44 +13,44 @@
  ******************************************************************************/
 
 state Counter {
-    env event Tk0 {}
+    env event Tk_ext {}
+    event Tk_int {}
+    event Done {}
 
-    conc Bit1 {
-        event Tk1 {}
-
-        default state Bit11 {}
-        state Bit12 {}
+    conc Bit0 {
+        
+        default state Bit00 {}
+        state Bit01 {}
 
         trans T1 {
-            from Bit1/Bit11
-            on Tk0
-            goto Bit12
+            from Bit00
+            on Tk_ext
+            goto Bit01
         }
 
         trans T2 {
-            from Bit12
-            on Tk0
-            goto Bit11
-            send Tk1
+            from Bit01
+            on Tk_ext
+            goto Bit00
+            send Tk_int
         }
     }
     
-    conc Bit2 {
-        event Done {}
+    conc Bit1 {
 
-        default state Bit21 {}
-        state Bit22 {}
+        default state Bit10 {}
+        state Bit11 {}
         
         trans T3 {
-            from Bit21
-            on Bit1/Tk1
-            goto Bit22
+            from Bit10
+            on Tk_int
+            goto Bit11
         }
 
         trans T4 {
-            from Bit22
-            on Bit1/Tk1
-            goto Bit21
+            from Bit11
+            on Tk_int
+            goto Bit10
             send Done
         }
     }
