@@ -1,0 +1,1 @@
+java -jar ./software/org.alloytools.alloy.dist.jar 

@@ -1,0 +1,1 @@
+./gradlew spotlessApply && ./gradlew releaseJar
