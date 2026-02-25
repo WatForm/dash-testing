@@ -1,0 +1,12 @@
+state root{
+	conc s1 {
+
+	}
+	conc s2 {
+
+	}
+	trans t {
+		from s1
+		goto s2
+	}
+}

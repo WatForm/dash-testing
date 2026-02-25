@@ -1,0 +1,18 @@
+state root
+{
+	conc s1 {
+		trans t1{
+			goto s2
+		}
+		trans t2{
+			goto sA
+		}
+		trans t3{
+			goto sB
+		}
+	}
+	conc s2 {
+		conc sA {}
+		conc sB {}
+	}
+}

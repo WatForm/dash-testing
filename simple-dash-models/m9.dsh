@@ -1,0 +1,34 @@
+
+
+
+state System {
+
+	conc Process  {
+		
+
+		default state Electing {
+			trans PassToken {
+				goto Process
+			}
+
+			trans ConsumeToken {
+				
+			}			
+
+			trans ElectLeader {
+				
+				goto Elected
+			}
+		}
+
+		state Elected {}
+
+		
+	}
+
+	
+}
+
+
+
+
