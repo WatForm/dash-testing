@@ -5,6 +5,9 @@
 *.out
 **/*.toolbox/**/*
 
+# translations to alloy from dash
+simple-dash-models/*.als
+
 workspace/
 
 # tlc produces states folder
