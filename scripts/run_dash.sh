@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 # Usage: ./script.sh <base_filename>
 # Example: ./script.sh simple
