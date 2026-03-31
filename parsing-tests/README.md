@@ -2,11 +2,14 @@
 
 These tests are completed on a corpus of Alloy models previously collected called catalyst (available at https://github.com/WatForm/dashplus/releases/download/catalyst-corpus-v1/catalyst-corpus.zip).
 
+These commands are executed in `../setup.sh` 
 `cd catalyst`
 `./download-corpus.sh`, which will download the zip (github release), unzip it, and move problematic files
 `cd ..`
 `jenv local 25`
 `javac -cp ../libs/watform-dashplus.jar AntlrParsingTests.java`
+
+Run the parsing tests using:
 `java -cp .:../libs/watform-dashplus.jar AntlrParsingTests`
 
 - It also tests for the generation of our Alloy AST objects, AlloyModel constructor, and the toString does not throw exceptions. 
