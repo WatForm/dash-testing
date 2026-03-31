@@ -1,0 +1,111 @@
+// concurrent states
+
+state Root {
+    default conc A {
+        default conc A1 {
+            default state A11 {
+                trans t1 {
+                    goto A12
+                }
+                trans t2 {
+                    goto B
+                }
+            }
+            state A12 {
+                trans t3 {
+                    goto A2
+                }
+                trans t4 {
+                    goto C
+                }
+            }
+            trans t5 {
+                goto D
+            }
+        }
+        default conc A2 {
+            default state A21 {
+                trans t6 {
+                    goto A
+                }
+                trans t7 {
+                    goto A22
+                }
+            }
+            state A22 {
+                trans t8 {
+                    goto B12
+                }
+                trans t9 {
+                    goto B2
+                }
+                trans t10 {
+                    goto A11
+                }
+            }
+            trans t11 {
+                goto B1
+            }
+        }
+    }
+    default conc B {
+        default conc B1 {
+            default state B11 {
+                trans t12 {
+                    goto B12
+                }
+                trans t13 {
+                    goto C
+                }
+            }
+            state B12 {
+                trans t14 {
+                    goto A2
+                }
+                trans t15 {
+                    goto B2
+                }
+            }
+            trans t16 {
+                goto D
+            }
+        }
+        default conc B2 {
+            default state B21 {
+                trans t17 {
+                    goto B1
+                }
+                trans t18 {
+                    goto B22
+                }
+            }
+            state B22 {
+                trans t19 {
+                    goto B21
+                }
+                trans t20 {
+                    goto B2
+                }
+            }
+        }
+        state C {
+            trans t21 {
+                goto A
+            }
+            trans t22 {
+                goto B
+            }
+            trans t23 {
+                goto B12
+            }
+        }
+    }
+    state D {
+        trans t24 {
+            goto C
+        }
+        trans t25 {
+            goto A22
+        }
+    }
+}

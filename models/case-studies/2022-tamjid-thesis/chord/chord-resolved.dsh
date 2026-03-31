@@ -1,0 +1,276 @@
+open util/ordering [Node] as node
+    
+sig Node {} 
+    
+abstract sig Status {} 
+    
+one sig Stabilizing extends Status {} 
+    
+one sig Rectifying extends Status {} 
+    
+fun nextNode [
+    n : one Node
+] : lone Node {
+    {m : one Node | no node/next[n] => m = node/first else m = node/next[n]}
+}
+    
+fun prevNode [
+    n : one Node
+] : lone Node {
+    {m : one Node | no node/prev[n] => m = node/last else m = node/prev[n]}
+}
+    
+pred between [
+    n1, nb, n2 : one Node
+] {
+    lt[n1, n2] => (lt[n1, nb] and lt[nb, n2]) else (lt[n1, nb] or lt[nb, n2])
+}
+    
+default state System {
+    members : set Node
+    
+    init {Node in System/members}
+    
+    default conc N [Node] {
+        frst : lone Node
+        
+        scnd : lone Node
+        
+        prdc : lone Node
+        
+        status : lone Status
+        
+        saved : lone Node
+        
+        init {
+                 no System/N[p_System_N]/status
+                 
+                 no System/N[p_System_N]/saved
+                 
+                 System/N[p_System_N]/frst = nextNode[p_System_N]
+                 
+                 System/N[p_System_N]/scnd = nextNode[System/N[p_System_N]/frst]
+                 
+                 System/N[p_System_N]/prdc = prevNode[p_System_N]
+             }
+        
+        default state Live {
+            trans StabilizeFromPrdc {
+                from System/N/Live[p_System_N]
+                goto System/N/Live[p_System_N]
+                when {
+                    p_System_N in System/members
+                    
+                    System/N[p_System_N]/status = Stabilizing
+                    
+                    between[
+                        p_System_N,
+                        System/N[p_System_N]/saved,
+                        System/N[p_System_N]/frst
+                    ]
+                }
+                do {
+                    no System/N[p_System_N]/status'
+                    
+                    no System/N[p_System_N]/saved'
+                    
+                    System/N[p_System_N]/saved !in
+                        System/members
+                        => {
+                            System/N[p_System_N]/frst' =
+                                System/N[p_System_N]/frst
+                            
+                            System/N[p_System_N]/scnd' =
+                                System/N[p_System_N]/scnd
+                            
+                            all n : one Node - p_System_N |
+                                System/N[n]/status' = System/N[n]/status
+                            
+                            all n : one Node - p_System_N |
+                                System/N[n]/saved' = System/N[n]/saved
+                        }
+                        else {
+                            System/N[p_System_N]/frst' =
+                                System/N[p_System_N]/saved
+                            
+                            System/N[p_System_N]/scnd' =
+                                System/N[System/N[p_System_N]/saved]/frst
+                            
+                            System/N[System/N[p_System_N]/saved]/status' =
+                                Rectifying
+                            
+                            System/N[System/N[p_System_N]/saved]/saved' =
+                                p_System_N
+                            
+                            all n :
+                                    one Node - System/N[p_System_N]/saved -
+                                    p_System_N |
+                                System/N[n]/status' = System/N[n]/status
+                            
+                            all n :
+                                    one Node - System/N[p_System_N]/saved -
+                                    p_System_N |
+                                System/N[n]/saved' = System/N[n]/saved
+                        }
+                }
+            }
+            
+            trans Flush {
+                from System/N/Live[p_System_N]
+                goto System/N/Live[p_System_N]
+                when {
+                    p_System_N in System/members
+                    
+                    System/N[p_System_N]/prdc !in System/members
+                }
+                do {System/N[p_System_N]/prdc' = {none}}
+            }
+            
+            trans Fail {
+                from System/N/Live[p_System_N]
+                goto System/N/Failed[p_System_N]
+                when {
+                    all n : one Node - p_System_N |
+                        some (System/members - p_System_N) &
+                                 (System/N[n]/frst + System/N[n]/scnd)
+                }
+                do {
+                    System/members' = System/members - p_System_N
+                    
+                    System/N[p_System_N]/frst' = {none}
+                    
+                    System/N[p_System_N]/scnd' = {none}
+                    
+                    System/N[p_System_N]/prdc' = {none}
+                    
+                    System/N[p_System_N]/status' = {none}
+                }
+            }
+            
+            trans StabilizeFromSucc {
+                from System/N/Live[p_System_N]
+                goto System/N/Live[p_System_N]
+                when {no System/N[p_System_N]/status}
+                do {
+                    System/N[p_System_N]/frst !in
+                        System/members
+                        => {
+                            System/N[p_System_N]/frst' =
+                                System/N[p_System_N]/scnd
+                            
+                            System/N[p_System_N]/scnd' =
+                                nextNode[System/N[p_System_N]/scnd]
+                            
+                            all n : one Node |
+                                System/N[n]/status' = System/N[n]/status
+                            
+                            all n : one Node |
+                                System/N[n]/saved' = System/N[n]/saved
+                        }
+                        else {
+                            System/N[p_System_N]/frst' =
+                                System/N[p_System_N]/frst
+                            
+                            System/N[p_System_N]/scnd' =
+                                System/N[System/N[p_System_N]/frst]/frst
+                            
+                            (
+                                some System/N[System/N[p_System_N]/frst]/prdc and
+                                    between[
+                                        p_System_N,
+                                        System/N[System/N[p_System_N]/frst]/prdc,
+                                        System/N[p_System_N]/frst
+                                    ] and
+                                    (
+                                        System/N[System/N[p_System_N]/frst]/prdc in
+                                            System/members
+                                    )
+                            )
+                                => {
+                                    System/N[p_System_N]/status' = Stabilizing
+                                    
+                                    System/N[p_System_N]/saved' =
+                                        System/N[System/N[p_System_N]/frst]/prdc
+                                    
+                                    all n : one Node - p_System_N |
+                                        System/N[n]/status' = System/N[n]/status
+                                    
+                                    all n : one Node - p_System_N |
+                                        System/N[n]/saved' = System/N[n]/saved
+                                }
+                                else (
+                                    p_System_N !in
+                                        System/N[System/N[p_System_N]/frst]/prdc
+                                )
+                                    => {
+                                        System/N[System/N[p_System_N]/frst]/status' =
+                                            Rectifying
+                                        
+                                        System/N[System/N[p_System_N]/frst]/saved' =
+                                            p_System_N
+                                        
+                                        all n :
+                                                one Node -
+                                                System/N[p_System_N]/frst |
+                                            System/N[n]/status' =
+                                                System/N[n]/status
+                                        
+                                        all n :
+                                                one Node -
+                                                System/N[p_System_N]/frst |
+                                            System/N[n]/saved' =
+                                                System/N[n]/saved
+                                    }
+                                    else {
+                                        all n : one Node |
+                                            System/N[n]/status' =
+                                                System/N[n]/status
+                                        
+                                        all n : one Node |
+                                            System/N[n]/saved' =
+                                                System/N[n]/saved
+                                    }
+                        }
+                }
+            }
+            
+            trans Rectify {
+                from System/N/Live[p_System_N]
+                goto System/N/Live[p_System_N]
+                when {
+                    p_System_N in System/members
+                    
+                    System/N[p_System_N]/status = Rectifying
+                }
+                do {
+                    (
+                        between[
+                            System/N[p_System_N]/prdc,
+                            System/N[p_System_N]/saved,
+                            p_System_N
+                        ] or
+                            System/N[p_System_N]/prdc !in System/members or
+                            no System/N[p_System_N]/prdc
+                    )
+                        => {
+                            System/N[p_System_N]/prdc' =
+                                System/N[p_System_N]/saved
+                        }
+                        else {
+                            System/N[p_System_N]/prdc' =
+                                System/N[p_System_N]/prdc
+                        }
+                }
+            }
+        }
+        
+        state Failed {
+            trans Join {
+                from System/N/Failed[p_System_N]
+                goto System/N/Live[p_System_N]
+                when {p_System_N !in System/members}
+                do {System/members' = System/members + p_System_N}
+            }
+        }
+    }
+}

@@ -5,8 +5,8 @@
 *.out
 **/*.toolbox/**/*
 
-# translations to alloy from dash
-simple-dash-models/*.als
+# java generated
+*.class
 
 workspace/
 

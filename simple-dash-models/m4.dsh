@@ -1,9 +1,0 @@
-state root
-{
-	conc s1 {
-		trans t1{
-			goto s2
-		}
-	}
-	conc s2 {}
-}

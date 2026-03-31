@@ -1,0 +1,28 @@
+state Root {
+    default state A {
+        trans t1 {
+            goto B
+        }
+        trans t3 {
+            goto A
+        }
+    }
+    state B {
+        trans t2 {
+            goto A
+        }
+        trans t4 {
+            goto B
+        }
+        trans t5{
+            goto C
+        }
+    }
+    state C {
+        trans t6
+        {
+            goto B
+        }
+
+    }
+}

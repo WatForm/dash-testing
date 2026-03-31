@@ -1,0 +1,6 @@
+
+assert final_bitStatus {
+    all s: __Snapshot| s.__stable = True and Counter_Done in s.__events0 =>
+        {Counter_Bit0_Bit01 + Counter_Bit1_Bit11} in s.__conf0
+}
+check final_bitStatus for 7 Snapshot, exactly 2 EventLabel expect 0

@@ -1,0 +1,40 @@
+// simple Or state hierarchy
+
+state Root {
+    default state S1 {
+        default state S11 {
+            trans t1 {
+                goto S12 
+            }
+            trans t2 {
+                goto S2
+            }
+        }
+        state S12 {
+            trans t3 {
+                goto S1
+            }
+            trans t4 {
+                goto S22 
+            }
+        }
+    }
+    state S2 {
+        default state S21 {
+            trans t5 {
+                goto S22
+            }
+            trans t6 {
+                goto S12
+            }
+        }
+        state S22 {
+            trans t7 {
+                goto S2 
+            }
+            trans t8 {
+                goto S1
+            }
+        }
+    }
+}

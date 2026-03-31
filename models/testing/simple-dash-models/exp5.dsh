@@ -1,0 +1,24 @@
+state root
+{
+	env event ee {
+
+	}
+	event ei {
+
+	}
+	trans ti {
+		on ei
+		from root
+		goto root
+	}
+	trans te {
+		on ee
+		from root
+		goto root
+	}
+	trans t {
+		from root
+		goto root
+		send ei
+	}
+}

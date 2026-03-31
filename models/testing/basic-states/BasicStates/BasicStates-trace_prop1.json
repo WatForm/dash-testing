@@ -1,0 +1,31 @@
+{
+    "snapshots":
+    [
+        {
+            "name": "A",
+            "conf0": ["Root/A"]
+        },
+        {
+            "name": "B",
+            "conf0": ["Root/B"]
+        },
+        {
+            "name": "C",
+            "conf0": ["Root/C"]
+        },
+        {
+            "name": "D",
+            "conf0": ["Root/D"]
+        },
+        {
+            "name": "E",
+            "conf0": ["Root/E"]
+        },
+        {
+            "name": "F",
+            "conf0": ["Root/F"]
+        }
+    ],
+
+    "trace_class": ["A", "D", "B", "E", "F", "A", "B", "C"]
+}

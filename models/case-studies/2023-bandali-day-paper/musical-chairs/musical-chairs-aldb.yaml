@@ -1,0 +1,6 @@
+stateSigName: DshSnapshot
+transitionRelationName: dsh_small_step
+initPredicateName: dsh_initial
+additionalSigScopes: 
+  Chairs: 4
+  Players: 5

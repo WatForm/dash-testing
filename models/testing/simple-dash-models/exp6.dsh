@@ -1,0 +1,29 @@
+state root
+{
+	env event ee {
+
+	}
+	event ei {
+
+	}
+	conc sa
+	{
+		default state p{}
+		state q{}
+	}
+	conc sb{
+		default state m{}
+		state n{}
+	}
+	trans t1 {
+		on ee
+		from p
+		goto q
+		send ei
+	}
+	trans t2 {
+		on ei
+		from m
+		goto n
+	}
+}

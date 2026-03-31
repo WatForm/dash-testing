@@ -1,0 +1,37 @@
+
+
+state root
+{
+	state A
+	{
+		default state M {}
+		state N {}
+	}
+	default state B
+	{
+		default state P {}
+		state Q {}
+	}
+	trans t1 {
+		from N
+		goto Q
+	}
+	trans t2 {
+		from A
+		goto B
+	}
+	trans t2_ {
+		from A
+		goto A
+	}
+	trans t3 {
+		from A
+		goto Q
+	}
+	trans t4 {
+		from B
+		goto N
+	}
+
+	
+}

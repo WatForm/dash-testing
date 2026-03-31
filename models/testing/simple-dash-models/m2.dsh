@@ -1,0 +1,19 @@
+state root
+{
+	default state s
+	{
+		trans t1
+		{
+			from s
+			goto s1
+		}
+		
+	}
+	state s1 {
+		trans t2{
+			from s
+			goto s2
+		}
+	}
+	state s2 {}
+}

@@ -1,0 +1,11 @@
+
+
+pred evens[word: seq Alphabet] {
+	(#(word :> A)).rem[2] = 0 
+	(#(word :> B)).rem[2] = 0
+}
+
+check {
+	evens[DshSnapshot/first.DFA_input] <=> isTrue[DshSnapshot/last.DFA_output]
+}
+for exactly 8 DshSnapshot

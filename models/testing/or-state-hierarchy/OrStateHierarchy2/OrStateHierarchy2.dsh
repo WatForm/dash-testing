@@ -1,0 +1,86 @@
+// or state hierarchy
+
+state Root {
+    default state A {
+        default state A1 {
+            default state A11 {
+                trans t1 {
+                    goto A12 
+                }
+                trans t2 {
+                    goto A2 
+                }
+                trans t3 {
+                    goto B12 
+                }
+            }
+            state A12 {
+                trans t4 {
+                    goto A22 
+                }
+                trans t5 {
+                    goto B22 
+                }
+            }
+        }
+        state A2 {
+            default state A21 {
+                trans t6 {
+                    goto A22 
+                }
+            }
+            state A22 {
+                trans t7 {
+                    goto B1 
+                }
+                trans t8 {
+                    goto A
+                }
+            }
+        }
+        trans t17 {
+            goto B
+        }
+    }
+    state B {
+        default state B1 {
+            default state B11 {
+                trans t9 {
+                    goto B2 
+                }
+                trans t10 {
+                    goto A2 
+                }
+            }
+            state B12 {
+                trans t11 {
+                    goto B2 
+                }
+                trans t12 {
+                    goto B11
+                }
+            }
+        }
+        state B2 {
+            default state B21 {
+                trans t13 {
+                    goto B 
+                }
+                trans t14 {
+                    goto A2 
+                }
+            }
+            state B22 {
+                trans t15 {
+                    goto B21 
+                }
+                trans t16 {
+                    goto A12 
+                }
+            }
+        }
+        trans t18 {
+            goto A22 
+        }
+    }
+}

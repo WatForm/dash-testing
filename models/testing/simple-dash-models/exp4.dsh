@@ -1,0 +1,10 @@
+state root
+{
+	event e {}
+	trans t {
+		on e
+		from root
+		goto root
+		send e
+	}
+}

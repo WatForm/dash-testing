@@ -1,0 +1,18 @@
+{
+    "description":"unit length testing existential quantifier with expected=false",
+    "trace_class": ["B"],
+    "quantifier": "exists",
+    "expected_result": false,
+    "snapshots":
+    [
+        {
+            "name": "A",
+            "conf0": ["Root/A"]
+        },
+        {
+            "name": "B",
+            "conf0": ["Root/B"]
+        }
+    ]
+    
+}

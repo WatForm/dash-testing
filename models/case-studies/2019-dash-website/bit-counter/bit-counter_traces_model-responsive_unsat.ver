@@ -1,0 +1,12 @@
+
+
+
+assert model_responsive {
+    all s: __Snapshot | Counter_Tk0 in s.__events0 and some nextStep =>
+        some s': s.*nextStep | s'.__stable = True and
+                    (Counter_Bit1_T1 in s'.__taken or
+                    Counter_Bit1_T2 in s'.__taken or
+                    Counter_Bit2_T3 in s'.__taken or
+                    Counter_Bit2_T4 in s'.__taken)
+}
+check model_responsive for 7 Snapshot, exactly 2 EventLabel expect 0
