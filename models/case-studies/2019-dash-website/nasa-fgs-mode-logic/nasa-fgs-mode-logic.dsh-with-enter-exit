@@ -160,14 +160,18 @@ state FlightModes {
         default state OFF {}
 
         state ON {
+            enter {
+                FD_On = True
+            }
+
+            exit {
+                FD_On = False
+            }
         }
 
         trans TurnFDOn {
             from OFF
             when Turn_FD_On
-            do {
-                FD_On = True
-            }
             goto ON
         }
 
@@ -177,9 +181,6 @@ state FlightModes {
                 FD_Switch_Pressed = True and
                 Overspeed = False
             }
-            do {
-                FD_On = False
-            }
             goto OFF
         }
     }
@@ -188,9 +189,25 @@ state FlightModes {
      * Determines whether the mode annunciations is displayed on the PFD
      */
     conc ANNUNCIATIONS {
-        default state OFF {}
+        default state OFF {
+            enter {
+                Modes_On = False
+            }
 
-        state ON {}
+            exit {
+                Modes_On = True
+            }
+        }
+
+        state ON {
+            enter {
+                Modes_On = True
+            }
+
+            exit {
+                Modes_On = False
+            }
+        }
 
         trans TurnAnnunciationsOn {
             from OFF
@@ -199,7 +216,6 @@ state FlightModes {
                 Is_Offside_FD_On = True or
                 FD_On = True
             }
-            do { Modes_On = True }
             goto ON
         }
 
@@ -210,7 +226,6 @@ state FlightModes {
                 Is_Offside_FD_On = False and
                 FD_On = False
             }
-            do { Modes_On = False }
             goto OFF
         }
     }
@@ -234,9 +249,23 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
+                enter {
+                    HDG_Selected = True
+                }
 
-                default state ACTIVE {}
+                exit {
+                    HDG_Selected = False
+                }
 
+                default state ACTIVE {
+                    enter {
+                        HDG_Active = True
+                    }
+
+                    exit {
+                        HDG_Active = False
+                    }
+                }
             }
 
             trans Select {
@@ -244,10 +273,6 @@ state FlightModes {
                 when HDG_Switch_Pressed = True
                 goto SELECTED
                 send New_Lateral_Mode_Activated
-                do { 
-                    HDG_Selected = True 
-                    HDG_Active = True
-                }
             }
 
             trans Clear {
@@ -257,20 +282,12 @@ state FlightModes {
                     Pilot_Flying_Transfer = True or
                     Modes_On = False
                 }
-                do { 
-                    HDG_Selected = False 
-                    HDG_Active = False
-                }
                 goto CLEARED
             }
 
             trans NewLateralModeActivated {
                 from SELECTED/ACTIVE
                 on New_Lateral_Mode_Activated
-                do { 
-                    HDG_Selected = False 
-                    HDG_Active = False
-                }
                 goto CLEARED
             }
         }
@@ -283,16 +300,30 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
+                enter {
+                    NAV_Selected = True
+                }
+
+                exit {
+                    NAV_Selected = False
+                }
 
                 default state ARMED {}
 
-                state ACTIVE {}
+                state ACTIVE {
+                    enter {
+                        NAV_Active = True
+                    }
+
+                    exit {
+                        NAV_Active = False
+                    }
+                }
             }
 
             trans Select {
                 from CLEARED
                 when NAV_Switch_Pressed = True
-                do { NAV_Selected = True }
                 goto SELECTED
             }
 
@@ -300,7 +331,6 @@ state FlightModes {
                 from SELECTED/ARMED
                 when NAV_Capture_Condition_Met = True
                 goto SELECTED/ACTIVE
-                do { NAV_Active = True }
                 send New_Lateral_Mode_Activated
             }
 
@@ -313,20 +343,12 @@ state FlightModes {
                     Pilot_Flying_Transfer = True or
                     Modes_On = False
                 }
-                do { 
-                    NAV_Selected = False 
-                    NAV_Active = False
-                }
                 goto CLEARED
             }
 
             trans NewLateralModeActivated {
                 from SELECTED/ACTIVE
                 on New_Lateral_Mode_Activated
-                do { 
-                    NAV_Selected = False 
-                    NAV_Active = False
-                }
                 goto CLEARED
             }
         }
@@ -339,20 +361,31 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
+                enter {
+                    LAPPR_Selected = True
+                }
+
+                exit {
+                    LAPPR_Selected = False
+                }
 
                 default state ARMED {}
 
-                state ACTIVE {}
+                state ACTIVE {
+                    enter {
+                        LAPPR_Active = True
+                    }
 
+                    exit {
+                        LAPPR_Active = False
+                    }
+                }
             }
 
             trans Select {
                 from CLEARED
                 when APPR_Switch_Pressed = True
                 goto SELECTED
-                do {
-                    LAPPR_Selected = True
-                }
             }
 
             trans Capture {
@@ -360,9 +393,6 @@ state FlightModes {
                 when LAPPR_Capture_Condition_Met = True
                 goto SELECTED/ACTIVE
                 send New_Lateral_Mode_Activated
-                do {
-                    LAPPR_Active = True
-                }
             }
 
             trans Clear {
@@ -375,20 +405,12 @@ state FlightModes {
                     Modes_On = False
                 }
                 goto CLEARED
-                do {
-                    LAPPR_Selected = False
-                    LAPPR_Active = False
-                }
             }
 
             trans NewLateralModeActivated {
                 from SELECTED/ACTIVE
                 on New_Lateral_Mode_Activated
                 goto CLEARED
-                do {
-                    LAPPR_Selected = False
-                    LAPPR_Active = False
-                }
             }
         }
 
@@ -400,9 +422,23 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
+                enter {
+                    LGA_Selected = True
+                }
 
-                default state ACTIVE {}
+                exit {
+                    LGA_Selected = False
+                }
 
+                default state ACTIVE {
+                    enter {
+                        LGA_Active = True
+                    }
+
+                    exit {
+                        LGA_Active = False
+                    }
+                }
             }
 
             trans Select {
@@ -410,10 +446,6 @@ state FlightModes {
                 when GA_Switch_Pressed = True and Overspeed = False
                 goto SELECTED
                 send New_Lateral_Mode_Activated
-                do {
-                    LGA_Selected = True
-                    LGA_Active = True
-                }
             }
 
             trans Clear {
@@ -426,20 +458,12 @@ state FlightModes {
                     Modes_On = False
                 }
                 goto CLEARED
-                do {
-                    LGA_Selected = False
-                    LGA_Active = False
-                }
             }
 
             trans NewLateralModeActivated {
                 from SELECTED/ACTIVE
                 on New_Lateral_Mode_Activated
                 goto CLEARED
-                do {
-                    LGA_Selected = False
-                    LGA_Active = False
-                }
             }
         }
 
@@ -458,29 +482,35 @@ state FlightModes {
             state CLEARED {}
 
             default state SELECTED {
+                enter {
+                    ROLL_Selected = True
+                }
 
-                default state ACTIVE {}
+                exit {
+                    ROLL_Selected = False
+                }
 
+                default state ACTIVE {
+                    enter {
+                        ROLL_Active = True
+                    }
+
+                    exit {
+                        ROLL_Active = False
+                    }
+                }
             }
 
             trans Select {
                 from CLEARED
                 when !LateralModeActive
                 goto SELECTED
-                do {
-                    ROLL_Selected = True
-                    ROLL_Active = True
-                }
             }
 
             trans Clear {
                 from SELECTED/ACTIVE
                 when LateralModeActive
                 goto CLEARED
-                do {
-                    ROLL_Selected = False
-                    ROLL_Active = False
-                }
             }
         }
     }
@@ -502,9 +532,23 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
+                enter {
+                    VS_Selected = True
+                }
 
-                default state ACTIVE {}
+                exit {
+                    VS_Selected = False
+                }
 
+                default state ACTIVE {
+                    enter {
+                        VS_Active = True
+                    }
+
+                    exit {
+                        VS_Active = False
+                    }
+                }
             }
 
             trans Select {
@@ -516,10 +560,6 @@ state FlightModes {
                 }
                 goto SELECTED
                 send New_Vertical_Mode_Activated
-                do {
-                    VS_Selected = True
-                    VS_Active = True
-                }
             }
 
             trans Clear {
@@ -530,20 +570,12 @@ state FlightModes {
                     Modes_On = False
                 }
                 goto CLEARED
-                do {
-                    VS_Selected = False
-                    VS_Active = False
-                }
             }
 
             trans NewVerticalModeActivated {
                 from SELECTED/ACTIVE
                 on New_Vertical_Mode_Activated
                 goto CLEARED
-                do {
-                    VS_Selected = False
-                    VS_Active = False
-                }
             }
         }
 
@@ -556,9 +588,23 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
+                enter {
+                    FLC_Selected = True
+                }
 
-                default state ACTIVE {}
+                exit {
+                    FLC_Selected = False
+                }
 
+                default state ACTIVE {
+                    enter {
+                        FLC_Active = True
+                    }
+
+                    exit {
+                        FLC_Active = False
+                    }
+                }
             }
 
             trans Select {
@@ -576,10 +622,6 @@ state FlightModes {
                 }
                 goto SELECTED
                 send New_Vertical_Mode_Activated
-                do {
-                    FLC_Selected = True
-                    FLC_Active = True
-                }
             }
 
             trans Clear {
@@ -591,20 +633,12 @@ state FlightModes {
                     Modes_On = False
                 }
                 goto CLEARED
-                do {
-                    FLC_Selected = False
-                    FLC_Active = False
-                }
             }
 
             trans NewVerticalModeActivated {
                 from SELECTED/ACTIVE
                 on New_Vertical_Mode_Activated
                 goto CLEARED
-                do {
-                    FLC_Selected = False
-                    FLC_Active = False
-                }
             }
         }
 
@@ -616,9 +650,23 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
+                enter {
+                    ALT_Selected = True
+                }
 
-                default state ACTIVE {}
-                
+                exit {
+                    ALT_Selected = False
+                }
+
+                default state ACTIVE {
+                    enter {
+                        ALT_Active = True
+                    }
+
+                    exit {
+                        ALT_Active = False
+                    }
+                }
             }
 
             trans Select {
@@ -629,10 +677,6 @@ state FlightModes {
                 }
                 goto SELECTED
                 send New_Vertical_Mode_Activated
-                do {
-                    ALT_Selected = True
-                    ALT_Active = True
-                }
             }
 
             trans Clear {
@@ -644,20 +688,12 @@ state FlightModes {
                     Modes_On = False
                 }
                 goto CLEARED
-                do {
-                    ALT_Selected = False
-                    ALT_Active = False
-                }
             }
 
             trans NewVerticalModeActivated {
                 from SELECTED/ACTIVE
                 on New_Vertical_Mode_Activated
                 goto CLEARED
-                do {
-                    ALT_Selected = False
-                    ALT_Active = False
-                }
             }
         }
 
@@ -750,19 +786,31 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
+                enter {
+                    VAPPR_Selected = True
+                }
+
+                exit {
+                    VAPPR_Selected = False
+                }
 
                 default state ARMED {}
 
-                state ACTIVE {}
+                state ACTIVE {
+                    enter {
+                        VAPPR_Active = True
+                    }
+
+                    exit {
+                        VAPPR_Active = False
+                    }
+                }
             }
 
             trans Select {
                 from CLEARED
                 when APPR_Switch_Pressed = True
                 goto SELECTED
-                do {
-                    VAPPR_Selected = True
-                }
             }
 
             trans Capture {
@@ -774,9 +822,6 @@ state FlightModes {
                 }
                 goto SELECTED/ACTIVE
                 send New_Vertical_Mode_Activated
-                do {
-                    VAPPR_Active = True
-                }
             }
 
             trans Clear {
@@ -790,20 +835,12 @@ state FlightModes {
                     Modes_On = False
                 }
                 goto CLEARED
-                do {
-                    VAPPR_Selected = False
-                    VAPPR_Active = False
-                }
             }
 
             trans NewVerticalModeActivated {
                 from SELECTED/ACTIVE
                 on New_Vertical_Mode_Activated
                 goto CLEARED
-                do {
-                    VAPPR_Selected = False
-                    VAPPR_Active = False
-                }
             }
         }
 
@@ -814,9 +851,23 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
+                enter {
+                    VGA_Selected = True
+                }
 
-                default state ACTIVE {}
+                exit {
+                    VGA_Selected = False
+                }
 
+                default state ACTIVE {
+                    enter {
+                        VGA_Active = True
+                    }
+
+                    exit {
+                        VGA_Active = False
+                    }
+                }
             }
 
             trans Select {
@@ -824,10 +875,6 @@ state FlightModes {
                 when GA_Switch_Pressed = True and Overspeed = False
                 goto SELECTED
                 send New_Vertical_Mode_Activated
-                do {
-                    VGA_Selected = True
-                    VGA_Active = True
-                }
             }
 
             trans Clear {
@@ -840,20 +887,12 @@ state FlightModes {
                     Modes_On = False
                 }
                 goto CLEARED
-                do {
-                    VGA_Selected = False
-                    VGA_Active = False
-                }
             }
 
             trans NewVerticalModeActivated {
                 from SELECTED/ACTIVE
                 on New_Vertical_Mode_Activated
                 goto CLEARED
-                do {
-                    VGA_Selected = False
-                    VGA_Active = False
-                }
             }
         }
 
@@ -875,29 +914,35 @@ state FlightModes {
             state CLEARED {}
 
             default state SELECTED {
-                
-                default state ACTIVE {}
+                enter {
+                    PITCH_Selected = True
+                }
 
+                exit {
+                    PITCH_Selected = False
+                }
+
+                default state ACTIVE {
+                    enter {
+                        PITCH_Active = True
+                    }
+
+                    exit {
+                        PITCH_Active = False
+                    }
+                }
             }
 
             trans Select {
                 from CLEARED
                 when !VerticalModeActive
                 goto SELECTED
-                do {
-                    PITCH_Selected = True
-                    PITCH_Active = True
-                }
             }
 
             trans Clear {
                 from SELECTED/ACTIVE
                 when VerticalModeActive
                 goto CLEARED
-                do {
-                    PITCH_Selected = False
-                    PITCH_Active = False
-                }
             }
         }
     }
