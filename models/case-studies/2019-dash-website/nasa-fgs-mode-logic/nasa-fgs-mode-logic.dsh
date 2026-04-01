@@ -618,7 +618,7 @@ state FlightModes {
             state SELECTED {
 
                 default state ACTIVE {}
-                
+
             }
 
             trans Select {
@@ -668,36 +668,14 @@ state FlightModes {
             default state CLEARED {}
 
             state SELECTED {
-                enter {
-                    ALTSEL_Selected = True
-                }
-
-                exit {
-                    ALTSEL_Selected = False
-                }
 
                 default state ARMED {}
 
                 state ACTIVE {
-                    enter {
-                        ALTSEL_Active = True
-                    }
-
-                    exit {
-                        ALTSEL_Active = False
-                    }
 
                     default state CAPTURE {}
 
-                    state TRACK {
-                        enter {
-                            ALTSEL_Track = True
-                        }
-
-                        exit {
-                            ALTSEL_Track = False
-                        }
-                    }
+                    state TRACK { }
                 }
             }
 
@@ -709,6 +687,9 @@ state FlightModes {
                     ALT_Active = False
                 }
                 goto SELECTED
+                do {
+                    ALTSEL_Selected = True
+                }
             }
 
             trans Capture {
@@ -716,12 +697,18 @@ state FlightModes {
                 when ALTSEL_Capture_Condition_Met = True
                 goto SELECTED/ACTIVE
                 send New_Vertical_Mode_Activated
+                do {
+                    ALTSEL_Active = True
+                }
             }
 
             trans Track {
                 from SELECTED/ACTIVE/CAPTURE
                 when ALTSEL_Track_Condition_Met = True
                 goto SELECTED/ACTIVE/TRACK
+                do {
+                    ALTSEL_Track = True
+                }
             }
 
             trans Clear {
@@ -733,12 +720,22 @@ state FlightModes {
                     Modes_On = False
                 }
                 goto CLEARED
+                do {
+                    ALTSEL_Track = False
+                    ALTSEL_Active = False
+                    ALTSEL_Selected = False
+                }
             }
 
             trans NewVerticalModeActivated {
                 from SELECTED/ACTIVE
                 on New_Vertical_Mode_Activated
                 goto CLEARED
+                do {
+                    ALTSEL_Track = False
+                    ALTSEL_Active = False
+                    ALTSEL_Selected = False
+                }
             }
         }
 
