@@ -1,0 +1,9 @@
+/* 
+    first, see examples of the model
+
+*/
+
+run { 
+   #(tcmc/ks_s0) = 1 
+   dsh_reachability 
+} for exactly 10 DshSnapshot, exactly 4 Medication, exactly 4 Patient expect 1

@@ -1,0 +1,11 @@
+
+assert FurnaceActivates {
+	always (HeatingSystem_ERROR !in conf0) => 
+	eventually (HeatingSystem_Functioning_Furnace_Furnace_Normal_Furnace_Activating_T3 in taken0)
+}
+
+
+
+check FurnaceActivates for 25 steps, exactly 2 Identifier, exactly 4 Temp
+check FurnaceActivates for 30 steps, exactly 3 Identifier, exactly 4 Temp
+c

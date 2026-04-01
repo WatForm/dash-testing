@@ -1,0 +1,6 @@
+
+
+check assert_ltl_15 {
+    all s: Snapshot, m: s.Library_members | #(s.Library_loans.m) <= Const.maxNbLoans
+} for 8 Snapshot,  3 MemberID, 3 BookID expect 0
+

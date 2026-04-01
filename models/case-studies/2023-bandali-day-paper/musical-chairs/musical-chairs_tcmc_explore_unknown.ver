@@ -1,0 +1,9 @@
+/* 
+    first, see examples of the model
+
+*/
+
+run { 
+   #(tcmc/ks_s0) = 1 
+   dsh_reachability 
+} for 4 Players, 3 Chairs exactly 5 DshSnapshot

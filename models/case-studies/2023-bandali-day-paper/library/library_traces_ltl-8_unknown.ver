@@ -1,0 +1,5 @@
+
+check assert_ltl_8 {
+    all s: Snapshot | (some ((s.Library_in_b).(s.Library_reservations)) =>
+        not(pre_Library_Lend[s]))
+} for 8 Snapshot, 0 EventLabel, 3 MemberID, 3 BookID expect 0

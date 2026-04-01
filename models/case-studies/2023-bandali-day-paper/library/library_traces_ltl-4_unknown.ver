@@ -1,0 +1,3 @@
+check assert_ltl_4 {
+    all s: Snapshot | pre_Library_Lend[s] => s.Library_in_m in s.Library_members
+} for 8 Snapshot,3 MemberID, 3 BookID expect 0

@@ -1,0 +1,4 @@
+assert assert_ctl_14 {
+    ctl_mc[ag [{ s : Snapshot | ef [{s:Snapshot | s.Library_in_m not in s.Library_members}]}]]
+}
+check assert_ctl_14 for 8 Snapshot, 3 MemberID, 3 BookID expect 0

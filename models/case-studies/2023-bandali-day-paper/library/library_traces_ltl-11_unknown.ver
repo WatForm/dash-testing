@@ -1,0 +1,10 @@
+check assert_ltl_11 {
+    all s: Snapshot {
+        all b: s.Library_books {
+            (some s.Library_loans[b]) =>
+                not(pre_Library_Take[s] and b = s.Library_in_b)
+        }
+        (pre_Library_Take[s] =>
+            (no s.Library_loans[s.Library_in_b]))
+    }
+} for 8 Snapshot, 3 MemberID, 3 BookID expect 0

@@ -1,0 +1,6 @@
+
+check assert_ltl_10 {
+    all s: Snapshot | pre_Library_Take[s] =>
+        ((some (s.Library_reservations[s.Library_in_b])) and
+         first[(s.Library_reservations[s.Library_in_b])] = s.Library_in_m)
+} for 8 Snapshot, 3 MemberID, 3 BookID expect 0

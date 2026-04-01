@@ -1,0 +1,4 @@
+check assert_ltl_6 {
+    all s: Snapshot | pre_Library_Reserve[s] =>
+        not (s.Library_in_m in s.Library_loans[s.Library_in_b])
+} for 8 Snapshot, 0 EventLabel, 3 MemberID, 3 BookID expect 0

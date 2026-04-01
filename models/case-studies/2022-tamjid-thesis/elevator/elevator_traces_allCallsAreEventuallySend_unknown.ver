@@ -1,0 +1,9 @@
+
+assert allCallsAreEventuallySend {
+	some s: Snapshot | no s.(Snapshot <: System_Controller_callToSend)
+}
+
+
+
+check allCallsAreEventuallySend for 17 Snapshot, exactly 3 PID, exactly 4 Floor
+check allCallsAreEventuallySend for 17 Snapshot, exactly 4 PID, exactly 4 Floor

@@ -1,0 +1,3 @@
+check assert_ltl_2 {
+    all s: Snapshot | pre_Library_Acquire[s] => not(s.Library_in_b in s.Library_books)
+} for 8 Snapshot, 3 MemberID, 3 BookID expect 0

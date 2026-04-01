@@ -1,0 +1,6 @@
+check assert_ltl_13 {
+    all s: Snapshot | pre_Library_Leave[s] =>
+        ((s.Library_in_m in s.Library_members) and
+         (no ((s.Library_loans).(s.Library_in_m))) and
+         (no ((s.Library_reservations).(s.Library_in_m))))
+} for 8 Snapshot, 3 MemberID, 3 BookID expect 0

@@ -1,0 +1,7 @@
+assert FurnaceActivates {
+	(no s0: Snapshot | (HeatingSystem_ERROR in s0.conf0)) => 
+	(some s1: Snapshot | HeatingSystem_Functioning_Furnace_Furnace_Normal_Furnace_Activating_T3 in s1.taken0)
+}
+
+check FurnaceActivates for 25 Snapshot, exactly 2 Identifier, exactly 4 Temp
+check FurnaceActivates for 30 Snapshot, exactly 3 Identifier, exactly 4 Temp

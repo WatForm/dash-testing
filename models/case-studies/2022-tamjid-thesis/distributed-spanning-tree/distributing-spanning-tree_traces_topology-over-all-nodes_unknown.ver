@@ -1,0 +1,7 @@
+assert topologyOverAllNodes {
+	eventually (all n: Node | some n.(DistrubedTreeSpanning_N_level))
+}
+
+check topologyOverAllNodes for 9 steps, exactly 4 Node, exactly 4 Level
+check topologyOverAllNodes for 11 steps, exactly 5 Node, exactly 5 Level
+check topologyOverAllNodes for 13 steps, exactly 6 Node, exactly 6 Level

@@ -1,0 +1,4 @@
+check assert_ltl_7 {
+    all s: Snapshot | pre_Library_Reserve[s] =>
+        no ((s.Library_reservations).(s.Library_in_m))
+} for 8 Snapshot, 0 EventLabel, 3 MemberID, 3 BookID expect 0
