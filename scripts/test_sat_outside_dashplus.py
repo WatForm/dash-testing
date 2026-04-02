@@ -2,7 +2,7 @@ import config
 from controller import *
 import os
 
-def check_sat_outside_dashplus(model_name, path_name):
+def test_sat_outside_dashplus(model_name):
 
     # translate to alloy and create a .als file
     cmd = f"{config.dashplus} -alloy={config.method} -write {model_name}"
@@ -25,4 +25,4 @@ def check_sat_outside_dashplus(model_name, path_name):
         return (0,1)
 
 if __name__ == "__main__":
-    controller(check_sat_outside_dashplus) 
+    controller(test_sat_outside_dashplus) 

@@ -2,7 +2,7 @@ import config
 from controller import *
 import re
 
-def check_properties(model_name_dsh, path_name):
+def test_properties(model_name_dsh, path_name):
 
     model_name = os.path.splitext(model_name_dsh)[0]
 
@@ -41,7 +41,7 @@ def check_properties(model_name_dsh, path_name):
         cmd = f"{dashplus} -alloy={method} {dsh_ver_file}"
         (output,err, rc, time_taken) = run_command(cmd)
         # note that SAT is a prefix of UNSAT
-        if rc == 0 and not("UNSAT" in output) and result=="sat":
+        if rc == 0 and ("SAT" in output) and not("UNSAT" in output) and result=="sat":
             if verbose:
                 # eventually we may want to record this in a csv file
                 print(f"{fragment_path}: PASS, time: {time_taken}, result: SAT")
@@ -63,4 +63,4 @@ def check_properties(model_name_dsh, path_name):
 
 
 if __name__ == "__main__":
-    controller(check_properties) 
+    controller(test_properties) 

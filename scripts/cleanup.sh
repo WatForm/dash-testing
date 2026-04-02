@@ -1,6 +1,8 @@
+# one script that covers cleanup for all possible tests
 
 # only in the models directory
 # not in the parsing-tests directory
+
 find ../models -name "*.als" -type f -exec rm -i {} \;
 
 find ../models -name "*-resolved.dsh" -type f -exec rm -i {} \;

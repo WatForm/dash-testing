@@ -7,21 +7,21 @@
 This puts the dashplus jar in the libs directory, downloads the parsing tests, and compiles the Java scripts.
 
 * choose options in scripts/config.py for yourself and run as in 
- `python3 check_sat_inside_dashplus.py nad`
+ `python3 test_sat_inside_dashplus.py nad`
 which uses Nancy's values set in config.py
 
 * Most of the tests cleanup their intermediate files (.als, -traces- .dsh, -resolved.dsh) if the test is successful. But the bash script `cleanup.sh` will clean up these intermediate file but check with the user for each file delete.
 
 ### Translation to Alloy
 * Test Translation to Alloy Directly within Dashplus 
-	* `python3 check_sat_inside_dashplus.py`
+	* `python3 test_sat_inside_dashplus.py`
 * Test Translation to Alloy by generating a .als file and running the AA on it 
-	* `python3 check_sat_outside_dashplus.py`
+	* `python3 test_sat_outside_dashplus.py`
 * use config.py to choose different methods of traces/tcmc/electrum
 
 ### DashModel -> DashFile
 * Test DashFile generated is syntactically correct
-`python3 check_dash_model_to_dash_file_is_syntactically_correct.py`
+`python3 test_dash_model_to_dash_file_is_syntactically_correct.py`
 
 * Test DashFile Model is equivalent for input and output DashFile
 	- (java) need a script

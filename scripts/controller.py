@@ -1,15 +1,24 @@
 # General script for common parts of dash-testing operations
+# hopefully no need to modify this script to add another kind of test
 
 import config
 import os
 import sys
 import subprocess
 import time 
+from concurrent.futures import ThreadPoolExecutor
+from threading import Lock, Event
 
 RED = "\033[31m"
 RESET = "\033[0m"
 MAGENTA = "\033[35m"
 BLUE = "\033[34m"
+
+
+count_pass = 0
+count_fail = 0
+lock = Lock()
+stop_event = Event() 
 
 def controller(func_per_dsh_model):
 
@@ -22,27 +31,56 @@ def controller(func_per_dsh_model):
     print("stop_on_first_fail: "+str(config.stop_on_first_fail))
     print("timeout: " + str(config.timeout))
     print("method: "+str(config.method)+"\n")
+    print("num_threads: "+str(config.num_threads)+"\n")
 
-    count_pass = 0
-    count_fail = 0
     for source in config.sources:
         print('Searching source:', source)
+        if not os.path.exists(source):
+            print("No files to test")
+            break
 
-        for root, dirs, files in os.walk(source):
-            for file in files:
-                fragment_path = str(os.path.join(root, file))
-                if file.endswith(".dsh"):
-                    (cnt_pass, cnt_fail) = func_per_dsh_model(fragment_path, root)
-                    count_pass += cnt_pass 
-                    count_fail += cnt_fail
+        dshfiles = sorted(
+            os.path.join(r, file)
+            for r, d, f in os.walk(source)
+            for file in f if file.endswith(".dsh")
+        )
 
+        futures = []
+        with ThreadPoolExecutor(max_workers=config.num_threads) as executor:
+            for dshfile in dshfiles:
+                if config.stop_on_first_fail and stop_event.is_set():
+                    print("Stopping submission of new tests due to a failure.")
+                    sys.exit(1)
+                futures.append(executor.submit(run_test, func_per_dsh_model, dshfile))
+            
+            for future in futures:
+                try:
+                    future.result()
+                except Exception as e:
+                    print(f"Exception from test: {e}")
+
+    global count_pass
+    global count_fail
     print("Passed: ", count_pass)
     print("Failed: ", count_fail)
 
+def run_test(func_per_dsh_model, dsh_model):
+    global count_pass
+    global count_fail
+    if stop_event.is_set():
+        return
+
+    (cnt_pass, cnt_fail) = func_per_dsh_model(dsh_model)
+    with lock:
+        count_pass += cnt_pass 
+        count_fail += cnt_fail
+        if cnt_fail>0 and config.stop_on_first_fail:
+            stop_event.set();
+
+# methods called by individual checks (see check_*.py files)
 
 def run_command(cmd):
-    if config.verbose:
-        print("Running:", cmd)
+    
     start = time.perf_counter()
     with subprocess.Popen(
         cmd,
@@ -53,6 +91,10 @@ def run_command(cmd):
     ) as p:
         try:
             (output, err) = p.communicate(timeout=config.timeout)
+            if config.verbose:
+                # put this after executing command to get input
+                # and output matched better when running in threads
+                print("Running:", cmd)
             rc = p.returncode
             end = time.perf_counter()
             elapsed = end - start
@@ -61,10 +103,17 @@ def run_command(cmd):
         except subprocess.TimeoutExpired:
             p.kill()
             (output, err) = p.communicate()
+            if config.verbose:
+                # put this after executing command to get input
+                # and output matched better when running in threads
+                print("Running:", cmd)
             rc = p.returncode
             end = time.perf_counter()
             elapsed = end - start
             return ("", "Timeout", 1, elapsed)
+        except Exception as e:
+            print(f"Error running test: {cmd}")
+            return ("", "Exception", 1, 0)
 
 def common_err_response(cmd, output, err, time_taken):
     if time_taken >= config.timeout:
@@ -74,8 +123,7 @@ def common_err_response(cmd, output, err, time_taken):
     print(f"{RED}{output}{RESET}")
     print(f"{MAGENTA}{err}{RESET}")
     
-    if config.stop_on_first_fail:
-        sys.exit(1);
+
 
 def common_pass_response(model, output, err, time_taken):
     if config.verbose:
