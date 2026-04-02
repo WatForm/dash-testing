@@ -1,6 +1,6 @@
 # General script for common parts of dash-testing operations
 
-from config import *
+import config
 import os
 import sys
 import subprocess
@@ -13,9 +13,19 @@ BLUE = "\033[34m"
 
 def controller(func_per_dsh_model):
 
+    who = ""
+    if len(sys.argv) > 1:
+        who = sys.argv[1]
+    config.setup(who)
+    print("sources: "+str(config.sources))
+    print("verbose: "+str(config.verbose))
+    print("stop_on_first_fail: "+str(config.stop_on_first_fail))
+    print("timeout: " + str(config.timeout))
+    print("method: "+str(config.method)+"\n")
+
     count_pass = 0
     count_fail = 0
-    for source in sources:
+    for source in config.sources:
         print('Searching source:', source)
 
         for root, dirs, files in os.walk(source):
@@ -31,7 +41,7 @@ def controller(func_per_dsh_model):
 
 
 def run_command(cmd):
-    if verbose:
+    if config.verbose:
         print("Running:", cmd)
     start = time.perf_counter()
     with subprocess.Popen(
@@ -42,7 +52,7 @@ def run_command(cmd):
         shell=True
     ) as p:
         try:
-            (output, err) = p.communicate(timeout=timeout)
+            (output, err) = p.communicate(timeout=config.timeout)
             rc = p.returncode
             end = time.perf_counter()
             elapsed = end - start
@@ -57,17 +67,17 @@ def run_command(cmd):
             return ("", "Timeout", 1, elapsed)
 
 def common_err_response(cmd, output, err, time_taken):
-    if time_taken >= timeout:
-        print(f"{RED}TEST RESULT: ERROR, {cmd}, time: TIMEOUT {timeout}{RESET}")
+    if time_taken >= config.timeout:
+        print(f"{RED}TEST RESULT: ERROR, {cmd}, time: TIMEOUT {config.timeout}{RESET}")
     else:
         print(f"{RED}TEST RESULT: ERROR, {cmd}, time: {time_taken}{RESET}")
     print(f"{RED}{output}{RESET}")
     print(f"{MAGENTA}{err}{RESET}")
     
-    if stop_on_first_fail:
+    if config.stop_on_first_fail:
         sys.exit(1);
 
 def common_pass_response(model, output, err, time_taken):
-    if verbose:
+    if config.verbose:
         # eventually we may want to record this in a csv file
         print(f"{BLUE}TEST RESULT: PASS, {model}, {time_taken}{RESET}")

@@ -1,4 +1,4 @@
-from config import *
+import config
 from controller import *
 import re
 

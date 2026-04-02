@@ -1,10 +1,10 @@
-from config import *
+import config
 from controller import *
 
 
 
 def check_sat_inside_dashplus(model_name, path_name):
-    cmd = f"{dashplus} -alloy={method} {model_name}"
+    cmd = f"{config.dashplus} -alloy={config.method} {model_name}"
     (output,err, rc, time_taken) = run_command(cmd)
     # note that SAT is a prefix of UNSAT
     if rc == 0 and not("UNSAT" in output):

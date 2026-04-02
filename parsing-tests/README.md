@@ -2,7 +2,7 @@
 
 These tests are completed on a corpus of Alloy models previously collected called catalyst (available at https://github.com/WatForm/dashplus/releases/download/catalyst-corpus-v1/catalyst-corpus.zip).
 
-These commands are executed in `../setup.sh` 
+These commands are executed in `setup.sh` 
 `cd catalyst`
 `./download-corpus.sh`, which will download the zip (github release), unzip it, and move problematic files
 `cd ..`

@@ -1,4 +1,4 @@
-from config import *
+import config
 from controller import *
 import os
 
@@ -9,7 +9,7 @@ def check_dash_model_to_dash_file_is_syntactically_correct(model_name, path_name
         return (0,0)
 
     # write the DashFile of the model
-    cmd = f"{dashplus} -write {model_name}"
+    cmd = f"{config.dashplus} -write {model_name}"
     (output,err,rc, time_taken) = run_command(cmd)
     if rc != 0:
         common_err_response(cmd, output, err, time_taken)
@@ -17,7 +17,7 @@ def check_dash_model_to_dash_file_is_syntactically_correct(model_name, path_name
     
     # read the file of the DashFile written above
     resolved_model_name = os.path.splitext(model_name)[0] + "-resolved.dsh"
-    cmd = f"{dashplus} {resolved_model_name}"
+    cmd = f"{config.dashplus} {resolved_model_name}"
     (output,err,rc, time_taken) = run_command(cmd)
     if rc == 0:
         common_pass_response(resolved_model_name, output, err, time_taken)
