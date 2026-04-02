@@ -5,9 +5,14 @@
 	`./setup.sh`
 This puts the dashplus jar in the libs directory, downloads the parsing tests, and compiles the Java scripts.
 
+## Cleanup
+
+Most of the tests cleanup their intermediate files (.als, -traces- .dsh, -resolved.dsh) if the test is successful. But the bash script `cleanup.sh` will clean up these intermediate file but check with the user for each file delete.
+
+
 ## Parsing Tests
 
-* follow the instructions in parsing-tests/README.md
+Follow the instructions in parsing-tests/README.md
 
 ## Correctness Tests
 
