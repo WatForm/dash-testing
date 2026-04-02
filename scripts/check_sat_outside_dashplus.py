@@ -16,7 +16,7 @@ def check_sat_outside_dashplus(model_name, path_name):
     # will run it for default command
     cmd = f"{alloy} {alloy_model_name}"
     (output,err,rc,time_taken) = run_command(cmd)
-    if rc == 0 and "SAT" in output:
+    if rc == 0 and output != "":
         common_pass_response(model_name, output, err, time_taken)
         os.remove(alloy_model_name)
         return (1,0)

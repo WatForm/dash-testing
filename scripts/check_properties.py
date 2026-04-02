@@ -8,7 +8,7 @@ def check_properties(model_name_dsh, path_name):
 
     # get the .ver files for this model_name
     # and the method in config.py
-    pattern = re.compile(rf"^{re.escape(os.path.basename(model_name))}_{re.escape(method)}_(.+)_(sat|unsat)\.ver$")
+    pattern = re.compile(rf"^{re.escape(os.path.basename(model_name))}_{re.escape(method)}_(.+)_(sat|unsat|unknown)\.ver$")
     matching_files = []
 
     for root, dirs, files in os.walk(path_name):
@@ -40,7 +40,8 @@ def check_properties(model_name_dsh, path_name):
 
         cmd = f"{dashplus} -alloy={method} {dsh_ver_file}"
         (output,err, rc, time_taken) = run_command(cmd)
-        if rc == 0 and "SAT" in output and result=="sat":
+        # note that SAT is a prefix of UNSAT
+        if rc == 0 and not("UNSAT" in output) and result=="sat":
             if verbose:
                 # eventually we may want to record this in a csv file
                 print(f"{fragment_path}: PASS, time: {time_taken}, result: SAT")

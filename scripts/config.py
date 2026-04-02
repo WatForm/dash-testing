@@ -10,10 +10,12 @@ sources = [
 	]
 
 verbose = False
-stop_on_first_fail = False
+stop_on_first_fail = True
 timeout = 30000 # ms
 method = "traces"
 
 dashplus = "java -ea -jar ../../dashplus/app/build/libs/watform-dashplus.jar "
 #dashplus = "java -ea -jar ../libs/watform-dashplus.jar "
-alloy = "java -jar ../libs/org.alloytools.alloy.dist.jar -f exec -o -"
+
+# table gives output if sat; no output if not sat
+alloy = "java -jar ../libs/org.alloytools.alloy.dist.jar exec -o - -f -t table"
