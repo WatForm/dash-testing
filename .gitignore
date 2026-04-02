@@ -1,3 +1,7 @@
+parsing-tests/catalyst/*
+.java-version
+old/*
+
 # any artefact produced in model
 *.temp
 *.tla
