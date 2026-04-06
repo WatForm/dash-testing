@@ -7,8 +7,11 @@ dashplus = "java -ea -jar ../libs/watform-dashplus.jar "
 # table gives output if sat; no output if not sat
 alloy = "java -jar ../libs/org.alloytools.alloy.dist.jar exec -o - -f -t table"
 
+tlc = "tlc"
+
 sources = [
-			'../models/',
+			# '../models/',
+			'./models/'
 			]
 verbose = True
 stop_on_first_fail = True
