@@ -17,3 +17,6 @@ find ../models -name "*tcmc*.dsh" -type f -exec rm -i {} \;
 find ../models -name "*.tla" -type f -exec rm -i {} \;
 find ../models -name "cfg.tla" -type f -exec rm -i {} \;
 find ../models -name "out.tla" -type f -exec rm -i {} \;
+
+# remove all models within any folder named "states"
+find ../models -type d -name "states" -exec find {} -type f -exec rm -i {} \;
