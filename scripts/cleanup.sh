@@ -12,3 +12,8 @@ find ../models -name "*-resolved.dsh" -type f -exec rm -i {} \;
 find ../models -name "*traces*.dsh" -type f -exec rm -i {} \;
 find ../models -name "*electrum*.dsh" -type f -exec rm -i {} \;
 find ../models -name "*tcmc*.dsh" -type f -exec rm -i {} \;
+
+# these are tla and cfg models that are generated, and are then removed
+find ../models -name "*.tla" -type f -exec rm -i {} \;
+find ../models -name "cfg.tla" -type f -exec rm -i {} \;
+find ../models -name "out.tla" -type f -exec rm -i {} \;
