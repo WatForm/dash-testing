@@ -10,7 +10,7 @@ alloy = "java -jar ../libs/org.alloytools.alloy.dist.jar exec -o - -f -t table"
 tlc = "tlc"
 
 sources = [
-			# '../models/',
+			'../models/',
 			'./models/'
 			]
 verbose = True
