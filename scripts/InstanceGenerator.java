@@ -2,8 +2,8 @@
 
 // jenv local 17.0.16
 // run this with 
-// javac -cp ../libs/org.alloytools.alloy.dist.jar InstanceGenerator.java
-// java -cp .:../libs/org.alloytools.alloy.dist.jar InstanceGenerator model.als scopeNum numInstances
+// javac -cp ../bin/org.alloytools.alloy.dist-6.2.0.jar InstanceGenerator.java
+// java -cp .:../bin/org.alloytools.alloy.dist-6.2.0.jar InstanceGenerator model.als scopeNum numInstances
 
 // generates numInstances .xml instances of model.als for an EXACT scope of scopeNum for every top-level sig
 // if the model is unsat at that scope then no instance file is written 
@@ -107,7 +107,7 @@ public class InstanceGenerator {
         try {
             CompModule modelWorld = CompUtil.parseEverything_fromString(rep, modelString);
             for (Sig sig : modelWorld.getAllReachableSigs()) {
-                if (sig.isTopLevel() && !sig.builtin) {
+                if (sig.isTopLevel() && !sig.builtin && sig.isOne == null && sig.isLone == null) {
                     topLevelSigs.add(sig.label.replace("this/",""));
                 }
             }
