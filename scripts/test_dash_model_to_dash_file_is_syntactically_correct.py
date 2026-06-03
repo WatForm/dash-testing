@@ -2,7 +2,7 @@ import config
 from controller import *
 import os
 
-def test_dash_model_to_dash_file_is_syntactically_correct(model_name, path_name):
+def test_dash_model_to_dash_file_is_syntactically_correct(model_name):
     if model_name.endswith("-resolved.dsh"):
         # these will be in the count, but overwritten when we get
         # to the actual model and then removed if passes

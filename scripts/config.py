@@ -11,7 +11,6 @@ tlc = "tlc"
 
 sources = [
 			'../models/',
-			'./models/'
 			]
 verbose = True
 stop_on_first_fail = True
@@ -38,7 +37,7 @@ def setup(who):
 			#'../models/case-studies/2022-bandali-thesis', 
 			#'../models/case-studies/2022-tamjid-thesis',
 			#'../models/case-studies/2023-bandali-day-paper',
-			'../models/testing',
+			'../models/case-studies/',
 			]
 		verbose = False
 		stop_on_first_fail = False

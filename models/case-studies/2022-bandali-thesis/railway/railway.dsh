@@ -83,7 +83,7 @@ one sig Const {
 
 state Railway {
     // Avoid multiple declarations on same line because of known bug
-    P0: one { 0 + 1 + 2 + 3 + 4 + 5 + 6 }
+    P0: { 0 + 1 + 2 + 3 + 4 + 5 + 6 }
     P1: one { 0 + 1 + 2 + 3 + 4 + 5 + 6 }
     P2: one { 0 + 1 + 2 + 3 + 4 + 5 + 6 }
     P3: one { 0 + 1 + 2 + 3 + 4 + 5 + 6 }
