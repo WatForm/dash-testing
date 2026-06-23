@@ -34,6 +34,7 @@ state Counter {
 				}
 				on Tk
 				goto Bit1
+				do current' = PID/first
 				// no sister can do anything so don't change current
 			}
 			trans ZeroToOne {
@@ -43,7 +44,8 @@ state Counter {
 				}
 				on Flip
 				goto Bit1
-				do current' = PID/next[current]
+				do current' = PID/first
+				// no sister can do anything so don't change current
 			}
 		}
 		
@@ -84,6 +86,7 @@ state Counter {
 			trans OneToZeroLast {
 				when {
 					thisBit in current
+					thisBit !in PID/first
 					thisBit in PID/last
 				}
 				on Flip
