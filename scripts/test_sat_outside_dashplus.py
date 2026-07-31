@@ -5,7 +5,7 @@ import os
 def test_sat_outside_dashplus(model_name):
 
     # translate to alloy and create a .als file
-    cmd = f"{config.dashplus} -alloy={config.method} -write {model_name}"
+    cmd = f"{config.dashtoalloy} -alloy={config.method} -write {model_name}"
     (output,err,rc,time_taken) = run_command(cmd)
     if rc != 0:
         common_err_response(cmd, output, err, time_taken)

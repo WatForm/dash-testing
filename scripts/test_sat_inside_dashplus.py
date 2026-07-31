@@ -4,7 +4,7 @@ from controller import *
 
 
 def test_sat_inside_dashplus(model_name):
-    cmd = f"{config.dashplus} -alloy={config.method} {model_name}"
+    cmd = f"{config.dashtoalloy} -alloy={config.method} {model_name}"
     (output,err, rc, time_taken) = run_command(cmd)
     # note that SAT is a prefix of UNSAT
     if rc == 0 and ("SAT" in output) and not("UNSAT" in output):

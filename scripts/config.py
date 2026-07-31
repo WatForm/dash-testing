@@ -2,7 +2,7 @@
 # modify this file with each person's config for the tests
 
 # defaults
-dashplus = "java -ea -jar ../libs/watform-dashplus.jar "
+dashtoalloy = "java -ea -jar ../libs/dashtoalloy.jar "
 
 # table gives output if sat; no output if not sat
 alloy = "java -jar ../libs/org.alloytools.alloy.dist.jar exec -o - -f -t table"

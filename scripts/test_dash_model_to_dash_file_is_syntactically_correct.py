@@ -9,7 +9,7 @@ def test_dash_model_to_dash_file_is_syntactically_correct(model_name):
         return (0,0)
 
     # write the DashFile of the model
-    cmd = f"{config.dashplus} -write {model_name}"
+    cmd = f"{config.dashtoalloy} -write {model_name}"
     (output,err,rc, time_taken) = run_command(cmd)
     if rc != 0:
         common_err_response(cmd, output, err, time_taken)
