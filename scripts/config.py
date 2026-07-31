@@ -19,7 +19,7 @@ method = "traces"
 num_threads = 12  # Number of threads to use for running tests concurrently
 
 def setup(who):
-	global dashplus
+	global dashtoalloy
 	global alloy
 	global sources 
 	global verbose
@@ -30,7 +30,7 @@ def setup(who):
 	if who == "nad":
 		print("Nancy's settings")
 		# don't bother with setup each time; just run from sister directory
-		dashplus = "java -ea -jar ../../dashplus/app/build/libs/watform-dashplus.jar "
+		dashtoalloy = "java -ea -jar ../../dashplus/app/build/libs/dashtoalloy.jar "
 		sources = [
 			#'../models/case-studies/2019-dash-website/bit-counter/',
 			#'../models/case-studies/2019-dash-website', 
