@@ -39,7 +39,7 @@ def setup(who):
 			#'../models/case-studies/2023-bandali-day-paper',
 			'../models/case-studies/',
 			]
-		verbose = False
+		verbose = True
 		stop_on_first_fail = False
 		timeout = 30000 # ms
 		method = "traces"

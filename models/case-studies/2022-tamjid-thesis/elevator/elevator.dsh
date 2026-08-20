@@ -5,8 +5,8 @@ abstract sig Direction {}
 one sig Up, Down extends Direction {}
 
 pred between [n1, nb, n2: Floor] {
-	     lt[n1,n2] =>   ( lt[n1,nb] && lt[nb,n2] )
-             else ( lt[n1,nb] || lt[nb,n2] )  }
+	     ordering/lt[n1,n2] =>   ( ordering/lt[n1,nb] && ordering/lt[nb,n2] )
+             else ( ordering/lt[n1,nb] || ordering/lt[nb,n2] )  }
 
 sig PID {}
 

@@ -6,8 +6,8 @@ abstract sig Status {}
 one sig Stabilizing, Rectifying extends Status{}
 
 pred between [n1, nb, n2: Node] {
-	     lt[n1,n2] =>   ( lt[n1,nb] && lt[nb,n2] )
-             else ( lt[n1,nb] || lt[nb,n2] )  }
+	     node/lt[n1,n2] =>   ( node/lt[n1,nb] && node/lt[nb,n2] )
+             else ( node/lt[n1,nb] || node/lt[nb,n2] )  }
 
 // Returns the first node if current node is the last Node in the ordering
 fun nextNode [n: Node] : lone Node  {
